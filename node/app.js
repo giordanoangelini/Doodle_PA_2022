@@ -14,4 +14,4 @@ app.post('/', function (req, res) {
 
 app.listen(3000);
 
-//curl -X GET -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJHaXZlbk5hbWUiOiJHaW9yZGFubyIsIlN1cm5hbWUiOiJBbmdlbGluaSJ9.egjPIXxp4Y5QrH_UBKS4342nloyQCd82gy2O6Wc2mVo" localhost:3000/
+//curl -X POST -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJHaXZlbk5hbWUiOiJHaW9yZGFubyIsIlN1cm5hbWUiOiJBbmdlbGluaSJ9.egjPIXxp4Y5QrH_UBKS4342nloyQCd82gy2O6Wc2mVo" localhost:3000/
