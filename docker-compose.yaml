@@ -4,22 +4,24 @@ services:
         image: mysql
         restart: always
         environment:
-          - MYSQL_DATABASE=root
-          - MYSQL_ROOT_PASSWORD=password
+          - MYSQL_ROOT_PASSWORD=root_password
+          - MYSQL_DATABASE=event_tracker
+          - MYSQL_USER=user
+          - MYSQL_PASSWORD=password
         ports:
           - 3306:3306
         volumes: 
           # Copy the sql script to create tables
-          - ./mysql/seed.sql:/docker-entrypoint-initdb.d/seed.sql          
+          - ./seed:/docker-entrypoint-initdb.d        
     node:
         build: .
         ports:
           - 8080:3000
         environment:
-          - PGUSER=postgres
-          - PGDATABASE=pa
-          - PGHOST=dbpg
-          - PGPASSWORD=postgres
-          - PGPORT=5432
+          - MYSQL_USER=user
+          - MYSQL_PASSWORD=password
+          - MYSQL_DATABASE=event_tracker
+          - MYSQL_HOST=mysql
+          - MYSQL_PORT=3306
         depends_on:
           - dbmysql
