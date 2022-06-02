@@ -6,12 +6,15 @@ services:
         environment:
           - MYSQL_ROOT_PASSWORD=root
           - MYSQL_DATABASE=event_tracker
+          - MYSQL_USER=user
+          - MYSQL_PASSWORD=password
         ports:
           - 3306:3306
         volumes:
           - ./seed:/docker-entrypoint-initdb.d        
     node:
         build: .
+        restart: always
         ports:
           - 8080:3000
         environment:
@@ -19,5 +22,7 @@ services:
           - MYSQL_DATABASE=event_tracker
           - MYSQL_HOST=dbmysql
           - MYSQL_PORT=3306
+          - MYSQL_USER=user
+          - MYSQL_PASSWORD=password
         depends_on:
           - dbmysql

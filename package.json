@@ -2,7 +2,7 @@
   "name": "progettopa",
   "version": "1.0.0",
   "scripts": {
-    "start": "nodemon node/app.js"
+    "start": "node node/app.js"
   },
   "license": "ISC",
   "dependencies": {
@@ -11,8 +11,5 @@
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.3",
     "sequelize": "^6.20.1"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.16"
   }
 }

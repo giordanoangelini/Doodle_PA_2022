@@ -10,7 +10,7 @@ app.use(middleware.logErrors);
 app.use(middleware.errorHandler);
 
 app.get('/', function (req, res) {
-    const users = Model.User.findAll().then(console.log);
+    Model.User.findAll().then(console.log);
     console.log(req.user);
 });
 
