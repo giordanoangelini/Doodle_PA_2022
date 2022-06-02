@@ -1,17 +1,7 @@
-require('dotenv').config();
-const { Sequelize, Model, DataTypes } = require('sequelize');
+const Singleton = require('./singletons')
+const sequelize = Singleton.sequelize.getInstance();
 
-/*const sequelize = new Sequelize('event_tracker', 'root', 'root', {
-    host: 'localhost',
-    port: '8889',
-    dialect: 'mysql'
-});*/
-
-const sequelize = new Sequelize(process.env.MYSQL_DATABASE, process.env.MYSQL_USER, process.env.MYSQL_PASSWORD, {
-    host: process.env.MYSQL_HOST,
-    port: process.env.MYSQL_PORT,
-    dialect: 'mysql'
-});
+const { Model, DataTypes } = require('sequelize');
 
 class User extends Model {}
 User.init({
@@ -76,13 +66,16 @@ Event.init({
         allowNull: false
     },
     latitude: {
-        type: DataTypes.FLOAT
+        type: DataTypes.FLOAT,
+        defaultValue: null
     },
     longitude: {
-        type: DataTypes.FLOAT
+        type: DataTypes.FLOAT,
+        defaultValue: null
     },
     link: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        defaultValue: null
     }
 }, {
     sequelize,

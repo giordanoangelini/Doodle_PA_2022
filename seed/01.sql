@@ -1,3 +1,7 @@
+DROP TABLE IF EXISTS event;
+DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS preference;
+
 CREATE TABLE event (
   id int(11) NOT NULL,
   title varchar(100) NOT NULL,
