@@ -4,24 +4,20 @@ services:
         image: mysql
         restart: always
         environment:
-          - MYSQL_ROOT_PASSWORD=root_password
+          - MYSQL_ROOT_PASSWORD=root
           - MYSQL_DATABASE=event_tracker
-          - MYSQL_USER=user
-          - MYSQL_PASSWORD=password
         ports:
           - 3306:3306
-        volumes: 
-          # Copy the sql script to create tables
+        volumes:
           - ./seed:/docker-entrypoint-initdb.d        
     node:
         build: .
         ports:
           - 8080:3000
         environment:
-          - MYSQL_USER=user
-          - MYSQL_PASSWORD=password
+          - MYSQL_ROOT_PASSWORD=root
           - MYSQL_DATABASE=event_tracker
-          - MYSQL_HOST=mysql
+          - MYSQL_HOST=dbmysql
           - MYSQL_PORT=3306
         depends_on:
           - dbmysql

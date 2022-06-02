@@ -49,3 +49,6 @@ ALTER TABLE event
 ALTER TABLE preference
   ADD CONSTRAINT event_id FOREIGN KEY (event_id) REFERENCES event (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
+INSERT INTO user (id, name, surname, role, token) VALUES 
+  (NULL, 'Ciao', 'Ciao', '0', '1'),
+  (NULL, 'Tre', 'Tre', '0', '1');
