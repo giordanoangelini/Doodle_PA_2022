@@ -1,5 +1,5 @@
 require('dotenv').config();
-import jwt from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';
 
     // Aggiunge nel corpo della richiesta il timestamp 
     export function requestTime (req: any, res: any, next: any): void{
@@ -32,7 +32,7 @@ import jwt from 'jsonwebtoken';
 
     // Verifica la chiave segreta del TOKEN
     export function verifyAndAuthenticate (req: any, res: any, next: any): void{
-    let decoded: string | jwt.JwtPayload = jwt.verify(req.token, process.env.KEY);
+    let decoded: string | jwt.JwtPayload  = jwt.verify(req.token, process.env.KEY);
     if(decoded !== null)
         req.user = decoded;
         console.log('LOGGED');

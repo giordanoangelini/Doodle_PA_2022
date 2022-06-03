@@ -1,19 +1,16 @@
-const express = require('express');
-const Middleware = require('./middleware');
-const Controller = require('./controller');
-const Model = require('./model');
+import * as express from 'express';
+import * as Middleware from './middleware';
+import * as Controller from './controller';
 const app = express();
   
 app.use(Middleware.requestTime);
+app.use(Middleware.checkHeader);
 app.use(Middleware.checkToken);
 app.use(Middleware.verifyAndAuthenticate);
 app.use(Middleware.logErrors);
 app.use(Middleware.errorHandler);
 
-app.get('/', function (req, res) {
-});
-
-app.post('/create-event', function (req, res) {
+app.post('/create-event', function (req: any, res: any) {
     console.log(req.user);
     Controller.createEvent(req.user);
 })

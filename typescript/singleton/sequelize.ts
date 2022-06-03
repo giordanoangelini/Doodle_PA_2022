@@ -6,7 +6,7 @@ export class SequelizeSingleton {
 	private connection: Sequelize;
 
     private constructor() {
-		SequelizeSingleton.instance.connection = new Sequelize (process.env.MYSQL_DATABASE, process.env.MYSQL_USER, process.env.MYSQL_PASSWORD, {
+		this.connection = new Sequelize (process.env.MYSQL_DATABASE, process.env.MYSQL_USER, process.env.MYSQL_PASSWORD, {
 			host: process.env.MYSQL_HOST,
 			port: Number(process.env.MYSQL_PORT),
 			dialect: 'mysql'

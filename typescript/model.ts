@@ -1,10 +1,9 @@
 import { SequelizeSingleton } from "./singleton/sequelize";
-import { Model, DataTypes, Sequelize } from 'sequelize';
+import { DataTypes, Sequelize } from 'sequelize';
 
 const sequelize: Sequelize = SequelizeSingleton.getConnection();
 
-export class User extends Model {}
-User.init({
+export const User = sequelize.define('user', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -28,14 +27,12 @@ User.init({
     }
 }, 
 {
-    sequelize,
     modelName: 'user',
     timestamps: false,
     freezeTableName: true
 });
 
-export class Event extends Model{}
-Event.init({
+export const Event = sequelize.define('event', {
     id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -78,15 +75,13 @@ Event.init({
         defaultValue: null
     }
 }, {
-    sequelize,
     modelName: 'event',
     timestamps: false,
     freezeTableName: true
 
 });
 
-export class Preference extends Model {}
-Preference.init({
+export const Preference = sequelize.define('preference', {
     event_id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -109,7 +104,6 @@ Preference.init({
         allowNull: false
     }
 }, {
-    sequelize,
     modelName: 'preference',
     timestamps: false,
     freezeTableName: true
