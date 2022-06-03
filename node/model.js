@@ -1,4 +1,4 @@
-const Singleton = require('./singletons')
+const Singleton = require('./singleton/sequelize')
 const sequelize = Singleton.sequelize.getInstance();
 
 const { Model, DataTypes } = require('sequelize');
