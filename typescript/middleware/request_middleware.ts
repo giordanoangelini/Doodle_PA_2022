@@ -34,6 +34,7 @@ export function verifyAndAuthenticate (req: any, res: any, next: any): void{
     try {
         const decoded: string | jwt.JwtPayload  = jwt.verify(req.token, process.env.KEY);
         if (decoded != null) {
+            req.body = decoded;
             console.log('verifyAndAuthenticate MW Passed');
             next();
         }

@@ -42,6 +42,7 @@ function verifyAndAuthenticate(req, res, next) {
     try {
         var decoded = jwt.verify(req.token, process.env.KEY);
         if (decoded != null) {
+            req.body = decoded;
             console.log('verifyAndAuthenticate MW Passed');
             next();
         }
