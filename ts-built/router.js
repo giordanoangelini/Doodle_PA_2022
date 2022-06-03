@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 var express = require("express");
 var RequestMiddleware = require("./middleware/request_middleware");
 var RouteMiddleware = require("./middleware/route_middleware");

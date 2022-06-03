@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 exports.Preference = exports.Event = exports.User = void 0;
 var sequelize_1 = require("./singleton/sequelize");
 var sequelize_2 = require("sequelize");
@@ -55,7 +55,7 @@ exports.Event = sequelize.define('event', {
     },
     datetimes: {
         type: sequelize_2.DataTypes.JSON,
-        allowNull: false,
+        allowNull: false
     },
     status: {
         type: sequelize_2.DataTypes.TINYINT,

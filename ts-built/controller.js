@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 exports.showEvents = exports.createEvent = void 0;
 var model_1 = require("./model");
 // Validazioni
@@ -9,7 +9,7 @@ function createEvent(event, res) {
             "Item": item
         });
         console.log("Done");
-    }).catch(function (error) {
+    })["catch"](function (error) {
         console.log(error);
     });
 }
@@ -20,7 +20,7 @@ function showEvents(id, res) {
             "Item": item
         });
         console.log("Done");
-    }).catch(function (error) {
+    })["catch"](function (error) {
         console.log(error);
     });
 }

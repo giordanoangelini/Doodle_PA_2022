@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 exports.SequelizeSingleton = void 0;
 require('dotenv').config();
 var sequelize_1 = require("sequelize");

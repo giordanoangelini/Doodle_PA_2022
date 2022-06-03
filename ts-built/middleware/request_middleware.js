@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 exports.errorHandler = exports.logErrors = exports.verifyAndAuthenticate = exports.checkToken = exports.checkHeader = exports.requestTime = void 0;
 require('dotenv').config();
 var jwt = require("jsonwebtoken");

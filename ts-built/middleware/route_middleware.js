@@ -1,5 +1,5 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+exports.__esModule = true;
 exports.show_events = exports.create_event = void 0;
 function create_event(req, res, next) {
     console.log("CreateEvent MW");
