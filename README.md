@@ -27,13 +27,13 @@ curl -X GET -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZ
 
 ### /book
 ~~~
-curl -X POST -H "Content-Type: application/json" -d '{"event_id":1,"datetimes":["2022-06-01 21:00:00","2022-06-02 21:00:00","2022-06-02 22:00:00"]}' localhost:3000/book 
+curl -X POST -H "Content-Type: application/json" -d '{"event_id":1,"datetimes":["2022-06-01 21:00:00","2022-06-02 21:00:00","2022-06-02 22:00:00"]}' localhost:8080/book 
 ~~~
 ~~~
-curl -X POST -H "Content-Type: application/json" -d '{"event_id":2,"datetimes":["2022-06-05 18:00:00","2022-06-05 19:00:00","2022-06-06 18:00:00"]}' localhost:3000/book 
+curl -X POST -H "Content-Type: application/json" -d '{"event_id":2,"datetimes":["2022-06-05 18:00:00","2022-06-05 19:00:00","2022-06-06 18:00:00"]}' localhost:8080/book 
 ~~~
 ~~~
-curl -X POST -H "Content-Type: application/json" -d '{"event_id":3,"datetimes":["2022-06-07 15:00:00"]}' localhost:3000/book 
+curl -X POST -H "Content-Type: application/json" -d '{"event_id":3,"datetimes":["2022-06-07 15:00:00"]}' localhost:8080/book 
 ~~~
 
 ### /refill (Autenticazione JWT)
