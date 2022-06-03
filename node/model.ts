@@ -1,9 +1,9 @@
-const Singleton = require('./singleton/sequelize')
-const sequelize = Singleton.sequelize.getInstance();
+import { SequelizeSingleton } from "./singleton/sequelize";
+import { Model, DataTypes, Sequelize } from 'sequelize';
 
-const { Model, DataTypes } = require('sequelize');
+const sequelize: Sequelize = SequelizeSingleton.getConnection();
 
-class User extends Model {}
+export class User extends Model {}
 User.init({
     id: {
         type: DataTypes.INTEGER,
@@ -34,7 +34,7 @@ User.init({
     freezeTableName: true
 });
 
-class Event extends Model{}
+export class Event extends Model{}
 Event.init({
     id: {
         type: DataTypes.INTEGER,
@@ -85,7 +85,7 @@ Event.init({
 
 });
 
-class Preference extends Model {}
+export class Preference extends Model {}
 Preference.init({
     event_id: {
         type: DataTypes.INTEGER,
@@ -114,7 +114,3 @@ Preference.init({
     timestamps: false,
     freezeTableName: true
 });
-
-exports.User = User
-exports.Event = Event
-exports.Preference = Preference
