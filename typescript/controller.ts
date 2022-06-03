@@ -3,6 +3,9 @@ import { User, Event, Preference} from './model';
 
 // Validazioni
 export function createEvent (event: any, res: any): void{
+
+    console.log(event);
+    
     
     Event.create(event).then(function(item) {
         res.json({

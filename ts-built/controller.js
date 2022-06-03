@@ -4,6 +4,7 @@ exports.showEvents = exports.createEvent = void 0;
 var model_1 = require("./model");
 // Validazioni
 function createEvent(event, res) {
+    console.log(event);
     model_1.Event.create(event).then(function (item) {
         res.json({
             "Item": item
