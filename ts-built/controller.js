@@ -1,15 +1,27 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createEvent = void 0;
+exports.showEvents = exports.createEvent = void 0;
 var model_1 = require("./model");
-function createEvent(event) {
-    try {
-        model_1.Event.create(event).then(function () {
-            console.log("Done");
+// Validazioni
+function createEvent(event, res) {
+    model_1.Event.create(event).then(function (item) {
+        res.json({
+            "Item": item
         });
-    }
-    catch (error) {
-        console.error(error);
-    }
+        console.log("Done");
+    }).catch(function (error) {
+        console.log(error);
+    });
 }
 exports.createEvent = createEvent;
+function showEvents(id, res) {
+    model_1.Event.findAll({ where: { owner: id } }).then(function (item) {
+        res.json({
+            "Item": item
+        });
+        console.log("Done");
+    }).catch(function (error) {
+        console.log(error);
+    });
+}
+exports.showEvents = showEvents;

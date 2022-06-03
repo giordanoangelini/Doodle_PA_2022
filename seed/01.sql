@@ -53,6 +53,10 @@ ALTER TABLE event
 ALTER TABLE preference
   ADD CONSTRAINT event_id FOREIGN KEY (event_id) REFERENCES event (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
-INSERT INTO user (id, name, surname, role, token) VALUES 
-  (NULL, 'Ciao', 'Ciao', '0', '1'),
-  (NULL, 'Tre', 'Tre', '0', '1');
+INSERT INTO user (name, surname, role, token) VALUES 
+  ('Antonio', 'Bandello', 0, 0),
+  ('Giordano', 'Angelini', 1, 10),
+  ('Cristian', 'Di Silvestre', 1, 10);
+
+INSERT INTO event (title, owner, gmt, modality, datetimes, status, latitude, longitude, link) VALUES
+  ('Riunione di Staff', 2, '+2', 1, '["2022-06-01 21:00:00","2022-06-02 21:00:00","2022-06-02 22:00:00"]', 1, NULL, NULL, NULL)
