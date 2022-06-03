@@ -1,21 +1,21 @@
 require('dotenv').config();
 import * as jwt from 'jsonwebtoken';
 
-// Aggiunge nel corpo della richiesta il timestamp 
-export function requestTime (req: any, res: any, next: any): void{
-    req.requestTime = Date.now();
-    next();
+// Controlla che la richiesta HTTP abbia un Authorization Header
+export function checkAuthHeader (req: any, res: any, next: any): void{
+    if (req.headers.authorization) {
+        console.log('checkAuthHeader MW Passed');
+        next();
+    } else next(new Error("No Authorization Header"));
 }
 
-// Controlla che la richiesta HTTP abbia un header
-export function checkHeader (req: any, res: any, next: any): void{
-    const authHeader: string = req.headers.authorization;
-    if (authHeader) {
+/* Controlla che la richiesta HTTP abbia un Content Header che specifichi 
+ * il tipo di contenuto 'application/json' */
+export function checkPayloadHeader (req: any, res: any, next: any): void{
+    if (req.headers["content-type"] == 'application/json') {
+        console.log('checkPayloadHeader MW Passed');    
         next();
-    } else {
-        let err: Error = new Error("No authorization header");
-        next(err);
-    }
+    } else next(new Error("No JSON Payload Header"));
 }
 
 // Controlla che nell'header compaia il TOKEN
@@ -23,22 +23,37 @@ export function checkToken (req: any, res: any, next: any): void{
     const bearerHeader: string = req.headers.authorization;
     if (typeof bearerHeader !== 'undefined'){
         const bearerToken: string = bearerHeader.split(' ')[1];
-        req.token=bearerToken;
+        req.token = bearerToken;
+        console.log('checkToken MW Passed');
         next();
-    } else{
-        res.sendStatus(403);
-    }
+    } else res.send(403);
 }
 
 // Verifica la chiave segreta del TOKEN
 export function verifyAndAuthenticate (req: any, res: any, next: any): void{
-    let decoded: string | jwt.JwtPayload  = jwt.verify(req.token, process.env.KEY);
-    if (decoded !== null) req.user = decoded;
-    console.log('LOGGED');
-    next();
+    try {
+        const decoded: string | jwt.JwtPayload  = jwt.verify(req.token, process.env.KEY);
+        if (decoded != null) {
+            console.log('verifyAndAuthenticate MW Passed');
+            next();
+        }
+    } catch (error) { 
+        next(error); 
+    }
 }
 
-// Stampa gli errori sulla consol
+// Controlla che la richiesta HTTP abbia un JSON ben formattato nel body
+ export function checkPayload (req: any, res: any, next: any): void{
+    try {
+        req.body = JSON.parse(JSON.stringify(req.body));
+        console.log('checkPayload MW Passed');
+        next();
+    } catch (error) { 
+        next(error)
+    }
+}
+
+// Stampa gli errori sulla console
 export function logErrors (err: Error, req: any, res: any, next: any): void {
     console.error(err.stack);
     next(err);
