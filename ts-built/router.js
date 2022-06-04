@@ -18,8 +18,12 @@ var NONJWT = [
     RequestMiddleware.logErrors,
     RequestMiddleware.errorHandler
 ];
+var create_event = [
+    RouteMiddleware.check_null_value_create_event,
+    RouteMiddleware.check_owner_exist_create_event
+];
 // Richiesta che consente di creare un evento (Autenticazione JWT)
-app.post('/create-event', JWT, RouteMiddleware.create_event, function (req, res) {
+app.post('/create-event', JWT, create_event, function (req, res) {
     res.json(req.body);
     //Controller.createEvent(req.user, res);
 });

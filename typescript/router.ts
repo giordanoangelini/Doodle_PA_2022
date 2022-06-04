@@ -1,7 +1,6 @@
 import * as express from 'express';
 import * as RequestMiddleware from './middleware/request_middleware';
 import * as RouteMiddleware from './middleware/route_middleware';
-import * as Controller from './controller';
 
 const app = express();
 
@@ -21,8 +20,13 @@ let NONJWT = [
     RequestMiddleware.errorHandler
 ]
 
+let create_event = [
+    RouteMiddleware.check_null_value_create_event,
+    RouteMiddleware.check_owner_exist_create_event
+]
+
 // Richiesta che consente di creare un evento (Autenticazione JWT)
-app.post('/create-event', JWT , RouteMiddleware.create_event, function (req: any, res: any) {
+app.post('/create-event', JWT , create_event, function (req: any, res: any) {
     res.json(req.body);
     //Controller.createEvent(req.user, res);
 })
