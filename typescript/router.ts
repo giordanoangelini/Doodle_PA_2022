@@ -28,9 +28,11 @@ let create_event = [
 
 // Richiesta che consente di creare un evento (Autenticazione JWT)
 app.post('/create-event', JWT , create_event, function (req: any, res: any) {
-    res.json(req.body);
-    Controller.createEvent(req.body, res).then(() => {
-        Controller.decreaseToken(req.body);
+    Controller.createEvent(req.body, res).then((result) => {
+        if (result){
+            Controller.decreaseToken(req.body);
+            res.json("Event created successfully")
+        }
     });
 })
 

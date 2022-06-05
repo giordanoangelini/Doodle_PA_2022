@@ -25,9 +25,11 @@ var create_event = [
 ];
 // Richiesta che consente di creare un evento (Autenticazione JWT)
 app.post('/create-event', JWT, create_event, function (req, res) {
-    res.json(req.body);
-    Controller.createEvent(req.body, res).then(function () {
-        Controller.decreaseToken(req.body);
+    Controller.createEvent(req.body, res).then(function (result) {
+        if (result) {
+            Controller.decreaseToken(req.body);
+            res.json("Event created successfully");
+        }
     });
 });
 // Richiesta che restituisce gli eventi creati da uno specifico utente (Autenticazione JWT)
