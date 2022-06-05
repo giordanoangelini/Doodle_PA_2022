@@ -1,6 +1,7 @@
 import * as express from 'express';
 import * as RequestMiddleware from './middleware/request_middleware';
 import * as RouteMiddleware from './middleware/route_middleware';
+import * as Controller from './controller';
 
 const app = express();
 
@@ -22,17 +23,19 @@ let NONJWT = [
 
 let create_event = [
     RouteMiddleware.check_null_value_create_event,
-    RouteMiddleware.check_owner_exist_create_event
+    RouteMiddleware.check_owner_exist
 ]
 
 // Richiesta che consente di creare un evento (Autenticazione JWT)
 app.post('/create-event', JWT , create_event, function (req: any, res: any) {
     res.json(req.body);
-    //Controller.createEvent(req.user, res);
+    Controller.createEvent(req.body, res).then(() => {
+        Controller.decreaseToken(req.body);
+    });
 })
 
 // Richiesta che restituisce gli eventi creati da uno specifico utente (Autenticazione JWT)
-app.get('/show-events', JWT, RouteMiddleware.show_events, function (req: any, res: any) {
+app.get('/show-events', JWT, RouteMiddleware.check_owner_exist, function (req: any, res: any) {
     res.json(req.body);
     //Controller.showEvents(req.user.id, res);
 })

@@ -1,19 +1,44 @@
 import { Optional } from 'sequelize/types';
 import { User, Event, Preference} from './model';
 
-export function createEvent (event: any, res: any): void{
+export async function createEvent (event: any, res: any): Promise<boolean>{
 
     console.log(event);
     
-    Event.create(event).then(function(item) {
-        res.json({
-            "Item" : item 
-        });
-        console.log("Done");
-    }).catch(function(error){
+    let result: boolean = false;
+
+    try{
+        await Event.create(event);
+        result = true;
+        console.log("Done: Create Event");
+    }catch(error){
         console.log(error);
-    });
+    };
     
+    return result;
+}
+
+export function decreaseToken (event: any): void{
+    
+    let decrease: number;
+    switch(event.modality){
+        case (1): {
+            decrease = 1;
+            break;
+        }
+        case (2): {
+            decrease = 2;
+            break;
+        }
+        case (3): {
+            decrease = 4;
+            break;
+        }
+        default: decrease = 1; 
+    }
+    
+    User.decrement(['token'], {by: decrease, where: { email: event.owner } });
+        console.log("Decrease token: DONE!");
 }
 
 export async function checkUserbyEmail (email: string): Promise<boolean>{

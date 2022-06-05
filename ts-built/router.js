@@ -3,6 +3,7 @@ exports.__esModule = true;
 var express = require("express");
 var RequestMiddleware = require("./middleware/request_middleware");
 var RouteMiddleware = require("./middleware/route_middleware");
+var Controller = require("./controller");
 var app = express();
 var JWT = [
     RequestMiddleware.checkAuthHeader,
@@ -20,15 +21,17 @@ var NONJWT = [
 ];
 var create_event = [
     RouteMiddleware.check_null_value_create_event,
-    RouteMiddleware.check_owner_exist_create_event
+    RouteMiddleware.check_owner_exist
 ];
 // Richiesta che consente di creare un evento (Autenticazione JWT)
 app.post('/create-event', JWT, create_event, function (req, res) {
     res.json(req.body);
-    //Controller.createEvent(req.user, res);
+    Controller.createEvent(req.body, res).then(function () {
+        Controller.decreaseToken(req.body);
+    });
 });
 // Richiesta che restituisce gli eventi creati da uno specifico utente (Autenticazione JWT)
-app.get('/show-events', JWT, RouteMiddleware.show_events, function (req, res) {
+app.get('/show-events', JWT, RouteMiddleware.check_owner_exist, function (req, res) {
     res.json(req.body);
     //Controller.showEvents(req.user.id, res);
 });

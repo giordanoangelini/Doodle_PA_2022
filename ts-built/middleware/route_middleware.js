@@ -1,6 +1,6 @@
 "use strict";
 exports.__esModule = true;
-exports.refill = exports.book = exports.show_bookings = exports.close_event = exports.delete_event = exports.show_events = exports.check_owner_exist_create_event = exports.check_null_value_create_event = void 0;
+exports.refill = exports.book = exports.show_bookings = exports.close_event = exports.delete_event = exports.check_owner_exist = exports.check_null_value_create_event = void 0;
 var Controller = require("../controller");
 function check_null_value_create_event(req, res, next) {
     console.log("create_event MW");
@@ -17,7 +17,7 @@ function check_null_value_create_event(req, res, next) {
         next(new Error("Values cannot be NULL"));
 }
 exports.check_null_value_create_event = check_null_value_create_event;
-function check_owner_exist_create_event(req, res, next) {
+function check_owner_exist(req, res, next) {
     Controller.checkUserbyEmail(req.body.owner).then(function (check) {
         if (check) {
             console.log('checkOwnerExist MW Passed');
@@ -27,12 +27,7 @@ function check_owner_exist_create_event(req, res, next) {
             next(new Error("Owner not exists"));
     });
 }
-exports.check_owner_exist_create_event = check_owner_exist_create_event;
-function show_events(req, res, next) {
-    console.log("show_events MW");
-    next();
-}
-exports.show_events = show_events;
+exports.check_owner_exist = check_owner_exist;
 function delete_event(req, res, next) {
     console.log("delete_event MW");
     next();

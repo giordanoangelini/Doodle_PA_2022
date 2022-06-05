@@ -14,18 +14,13 @@ export function check_null_value_create_event (req: any, res: any, next: any) : 
     } else next(new Error("Values cannot be NULL"));
 }
 
-export function check_owner_exist_create_event (req: any, res: any, next: any) : void {
+export function check_owner_exist(req: any, res: any, next: any) : void {
     Controller.checkUserbyEmail(req.body.owner).then((check) => {
         if (check) {
             console.log('checkOwnerExist MW Passed');
             next();
         } else next(new Error("Owner not exists"));
     });
-}
-
-export function show_events (req: any, res: any, next: any) : void {
-    console.log("show_events MW");
-    next();
 }
 
 export function delete_event (req: any, res: any, next: any) : void {

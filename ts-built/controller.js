@@ -36,20 +36,58 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.showEvents = exports.checkUserbyEmail = exports.createEvent = void 0;
+exports.showEvents = exports.checkUserbyEmail = exports.decreaseToken = exports.createEvent = void 0;
 var model_1 = require("./model");
 function createEvent(event, res) {
-    console.log(event);
-    model_1.Event.create(event).then(function (item) {
-        res.json({
-            "Item": item
+    return __awaiter(this, void 0, void 0, function () {
+        var result, error_1;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    console.log(event);
+                    result = false;
+                    _a.label = 1;
+                case 1:
+                    _a.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, model_1.Event.create(event)];
+                case 2:
+                    _a.sent();
+                    result = true;
+                    console.log("Done: Create Event");
+                    return [3 /*break*/, 4];
+                case 3:
+                    error_1 = _a.sent();
+                    console.log(error_1);
+                    return [3 /*break*/, 4];
+                case 4:
+                    ;
+                    return [2 /*return*/, result];
+            }
         });
-        console.log("Done");
-    })["catch"](function (error) {
-        console.log(error);
     });
 }
 exports.createEvent = createEvent;
+function decreaseToken(event) {
+    var decrease;
+    switch (event.modality) {
+        case (1): {
+            decrease = 1;
+            break;
+        }
+        case (2): {
+            decrease = 2;
+            break;
+        }
+        case (3): {
+            decrease = 4;
+            break;
+        }
+        default: decrease = 1;
+    }
+    model_1.User.decrement(['token'], { by: decrease, where: { email: event.owner } });
+    console.log("Decrease token: DONE!");
+}
+exports.decreaseToken = decreaseToken;
 function checkUserbyEmail(email) {
     return __awaiter(this, void 0, void 0, function () {
         var result;
