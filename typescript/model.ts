@@ -4,8 +4,8 @@ import { DataTypes, Sequelize } from 'sequelize';
 const sequelize: Sequelize = SequelizeSingleton.getConnection();
 
 export const User = sequelize.define('user', {
-    id: {
-        type: DataTypes.INTEGER,
+    email: {
+        type: DataTypes.STRING(30),
         primaryKey: true,
         autoIncrement: true
     },

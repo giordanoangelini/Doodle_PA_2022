@@ -5,8 +5,8 @@ var sequelize_1 = require("./singleton/sequelize");
 var sequelize_2 = require("sequelize");
 var sequelize = sequelize_1.SequelizeSingleton.getConnection();
 exports.User = sequelize.define('user', {
-    id: {
-        type: sequelize_2.DataTypes.INTEGER,
+    email: {
+        type: sequelize_2.DataTypes.STRING(30),
         primaryKey: true,
         autoIncrement: true
     },

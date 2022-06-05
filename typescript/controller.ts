@@ -16,18 +16,17 @@ export function createEvent (event: any, res: any): void{
     
 }
 
-export function checkUserbyEmail (email: string): boolean{
+export async function checkUserbyEmail (email: string): Promise<boolean>{
     
-    var result: boolean = false;
-    
-    User.findByPk(email).then((user) => {
+    const result = await User.findByPk(email);
+    if (result) return true;
+    else return false;
+    /*User.findByPk(email).then((user) => {
         console.log(user);
-        //f (user) result = true;
+        if (user !== null) result = true;
     }).catch(function(error){
         console.log(error);
-    });
-    
-    return result;
+    });*/
 }
 
 export function showEvents (id: number, res: any): void{

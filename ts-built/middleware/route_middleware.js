@@ -18,12 +18,14 @@ function check_null_value_create_event(req, res, next) {
 }
 exports.check_null_value_create_event = check_null_value_create_event;
 function check_owner_exist_create_event(req, res, next) {
-    if (Controller.checkUserbyEmail(req.body.email)) {
-        console.log('checkOwnerExist MW Passed');
-        next();
-    }
-    else
-        next(new Error("Owner not exists"));
+    Controller.checkUserbyEmail(req.body.owner).then(function (check) {
+        if (check) {
+            console.log('checkOwnerExist MW Passed');
+            next();
+        }
+        else
+            next(new Error("Owner not exists"));
+    });
 }
 exports.check_owner_exist_create_event = check_owner_exist_create_event;
 function show_events(req, res, next) {

@@ -15,10 +15,12 @@ export function check_null_value_create_event (req: any, res: any, next: any) : 
 }
 
 export function check_owner_exist_create_event (req: any, res: any, next: any) : void {
-    if (Controller.checkUserbyEmail(req.body.email)) {
-        console.log('checkOwnerExist MW Passed');
-        next();
-    } else next(new Error("Owner not exists"));
+    Controller.checkUserbyEmail(req.body.owner).then((check) => {
+        if (check) {
+            console.log('checkOwnerExist MW Passed');
+            next();
+        } else next(new Error("Owner not exists"));
+    });
 }
 
 export function show_events (req: any, res: any, next: any) : void {
