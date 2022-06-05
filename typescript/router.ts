@@ -36,8 +36,9 @@ app.post('/create-event', JWT , create_event, function (req: any, res: any) {
 
 // Richiesta che restituisce gli eventi creati da uno specifico utente (Autenticazione JWT)
 app.get('/show-events', JWT, RouteMiddleware.check_owner_exist, function (req: any, res: any) {
-    res.json(req.body);
-    //Controller.showEvents(req.user.id, res);
+    Controller.showEvents(req.body.owner).then((result) => {
+        res.json(result);
+    });
 })
 
 // Richiesta che permette di cancellare un evento per il quale non sono state espresse preferenze (Autenticazione JWT)

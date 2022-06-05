@@ -106,14 +106,26 @@ function checkUserbyEmail(email) {
     });
 }
 exports.checkUserbyEmail = checkUserbyEmail;
-function showEvents(id, res) {
-    model_1.Event.findAll({ where: { owner: id } }).then(function (item) {
-        res.json({
-            "Item": item
+function showEvents(email) {
+    return __awaiter(this, void 0, void 0, function () {
+        var item, error_2;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, model_1.Event.findAll({ where: { owner: email } })];
+                case 1:
+                    item = _a.sent();
+                    return [3 /*break*/, 3];
+                case 2:
+                    error_2 = _a.sent();
+                    console.log(error_2);
+                    return [3 /*break*/, 3];
+                case 3:
+                    ;
+                    return [2 /*return*/, item];
+            }
         });
-        console.log("Done");
-    })["catch"](function (error) {
-        console.log(error);
     });
 }
 exports.showEvents = showEvents;
