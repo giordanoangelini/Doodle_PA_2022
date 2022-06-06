@@ -1,60 +1,31 @@
 import { Optional } from 'sequelize/types';
 import { User, Event, Preference} from './model';
 
-export async function createEvent (event: any, res: any): Promise<boolean>{
+let hashDecreaseToken: Map<number, number> = new Map();
+hashDecreaseToken.set(1,1); 
+hashDecreaseToken.set(2,2); 
+hashDecreaseToken.set(3,4); 
 
-    console.log(event);
-    
-    let result: boolean = false;
-
-    try{
-        await Event.create(event);
-        result = true;
-        console.log("Done: Create Event");
-    }catch(error){
+export function createEvent (event: any, res: any): void{
+    Event.create(event).then((item) => {
+        res.json({"Response": "DONE: create event","Event": item})
+        User.decrement(['token'], {by: hashDecreaseToken.get(event.modality), where: { email: event.owner } });
+    }).catch((error) => {
         console.log(error);
-    };
-    
-    return result;
-}
-
-export function decreaseToken (event: any): void{
-    
-    let decrease: number;
-    switch(event.modality){
-        case (1): {
-            decrease = 1;
-            break;
-        }
-        case (2): {
-            decrease = 2;
-            break;
-        }
-        case (3): {
-            decrease = 4;
-            break;
-        }
-        default: decrease = 1; 
-    }
-    
-    User.decrement(['token'], {by: decrease, where: { email: event.owner } });
-        console.log("Decrease token: DONE!");
+    });
 }
 
 export async function checkUserbyEmail (email: string): Promise<boolean>{
-    
     const result = await User.findByPk(email);
     if (result) return true;
     else return false;
 }
 
-export async function showEvents (email: string): Promise<any>{
-    let item: any;
-    try{
-        item = await Event.findAll({where: { owner : email }});
-    }catch (error) {
+export  function showEvents (email: string, res: any): void{
+    Event.findAll({where: { owner : email }}).then ((items) => {
+        res.json(items);
+    }).catch ((error) => {
         console.log(error);
-    };
-    return item;
+    });
 }
     

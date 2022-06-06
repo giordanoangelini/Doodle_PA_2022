@@ -7,7 +7,7 @@ curl -X POST -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0
 
 ### /show-events (Autenticazione JWT)
 ~~~
-curl -X GET -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imdpb3JkYW5vQGVtYWlsLmNvbSJ9.OFxFlr50kDDU2Ug84i_GwZXnPi50JVwSyQpkR5MEYww" localhost:8080/show-events
+curl -X GET -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvd25lciI6Imdpb3JkYW5vQGVtYWlsLmNvbSJ9.6cu9JqpdJO7ooLco6WxIfxeLppzZR9Huw7frSAojZ_Q" localhost:8080/show-events
 ~~~
 
 ### /delete-event (Autenticazione JWT)
