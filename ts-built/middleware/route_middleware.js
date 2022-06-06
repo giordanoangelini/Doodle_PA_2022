@@ -1,33 +1,39 @@
 "use strict";
 exports.__esModule = true;
-exports.refill = exports.book = exports.show_bookings = exports.close_event = exports.delete_event = exports.check_owner_exist = exports.check_value_create_event = void 0;
+exports.refill = exports.book = exports.show_bookings = exports.close_event = exports.delete_event = exports.checkBalance = exports.checkOwner = exports.checkPayload = void 0;
 var Controller = require("../controller");
-function check_value_create_event(req, res, next) {
-    if (req.body.title != null &&
-        req.body.owner != null &&
-        req.body.gmt != null &&
-        req.body.modality != null &&
-        req.body.datetimes != null &&
-        req.body.status != null &&
-        [1, 2, 3].includes(req.body.modality)) {
-        console.log('CheckValue MW Passed');
+var error_1 = require("../factory/error");
+function checkPayload(req, res, next) {
+    if (typeof req.body.title == 'string' &&
+        typeof req.body.owner == 'string' &&
+        typeof req.body.gmt == 'string' && // ^(UTC){1}[+]{1}[0-9]{1}$|^(UTC){1}[+]{1}1{1}[0-4]{1}$|^(UTC){1}[-]{1}[0-9]{1}$|^(UTC){1}[-]{1}1{1}[0-2]{1}$
+        [1, 2, 3].includes(req.body.modality) &&
+        req.body.datetimes.length != 0 &&
+        [0, 1].includes(req.body.status)) {
         next();
     }
     else
-        next(new Error("Invalid attributes"));
+        next(error_1.ErrorEnum.MalformedPayload);
 }
-exports.check_value_create_event = check_value_create_event;
-function check_owner_exist(req, res, next) {
+exports.checkPayload = checkPayload;
+function checkOwner(req, res, next) {
     Controller.checkUserbyEmail(req.body.owner).then(function (check) {
-        if (check) {
-            console.log('CheckOwnerExist MW Passed');
+        if (check)
             next();
-        }
         else
             next(new Error("Owner does not exist"));
     });
 }
-exports.check_owner_exist = check_owner_exist;
+exports.checkOwner = checkOwner;
+function checkBalance(req, res, next) {
+    Controller.checkBalance(req.body.owner, req.body.modality).then(function (check) {
+        if (check)
+            next();
+        else
+            next(error_1.ErrorEnum.Unauthorized);
+    });
+}
+exports.checkBalance = checkBalance;
 function delete_event(req, res, next) {
     next();
 }

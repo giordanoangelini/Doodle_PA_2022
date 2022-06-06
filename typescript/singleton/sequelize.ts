@@ -2,6 +2,7 @@ require('dotenv').config();
 import { Sequelize } from 'sequelize';
 
 export class SequelizeSingleton {
+	
     private static instance: SequelizeSingleton;
 	private connection: Sequelize;
 

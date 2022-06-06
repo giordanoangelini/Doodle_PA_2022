@@ -9,16 +9,17 @@ export const JWT = [
 
 export const NONJWT = [
     RequestMiddleware.checkPayloadHeader,
-    RequestMiddleware.checkPayload
+    RequestMiddleware.checkJSONPayload
 ];
 
 export const create_event = [
-    RouteMiddleware.check_value_create_event,
-    RouteMiddleware.check_owner_exist
+    RouteMiddleware.checkPayload,
+    RouteMiddleware.checkOwner,
+    RouteMiddleware.checkBalance
 ];
 
 export const show_events = [
-    RouteMiddleware.check_owner_exist
+    RouteMiddleware.checkOwner
 ];
 
 export const close_event = [

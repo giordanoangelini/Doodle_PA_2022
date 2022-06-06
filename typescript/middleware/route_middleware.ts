@@ -1,26 +1,29 @@
 import * as Controller from '../controller';
+import { ErrorEnum } from '../factory/error';
 
-export function check_value_create_event (req: any, res: any, next: any) : void {
-    if (req.body.title != null && 
-        req.body.owner != null && 
-        req.body.gmt != null &&  
-        req.body.modality != null && 
-        req.body.datetimes != null &&  
-        req.body.status != null &&
-        [1,2,3].includes(req.body.modality)
-        ) {
-        console.log('CheckValue MW Passed');
+export function checkPayload(req: any, res: any, next: any) : void {
+    if (typeof req.body.title == 'string' && 
+        typeof req.body.owner == 'string' && 
+        typeof req.body.gmt == 'string' && // ^(UTC){1}[+]{1}[0-9]{1}$|^(UTC){1}[+]{1}1{1}[0-4]{1}$|^(UTC){1}[-]{1}[0-9]{1}$|^(UTC){1}[-]{1}1{1}[0-2]{1}$
+        [1,2,3].includes(req.body.modality) &&
+        req.body.datetimes.length != 0 && 
+        [0,1].includes(req.body.status)) {
         next();
-    } else next(new Error("Invalid attributes"));
+    } else next(ErrorEnum.MalformedPayload);
 }
 
-export function check_owner_exist(req: any, res: any, next: any) : void {
+export function checkOwner(req: any, res: any, next: any) : void {
     Controller.checkUserbyEmail(req.body.owner).then((check) => {
-        if (check) {
-            console.log('CheckOwnerExist MW Passed');
-            next();
-        } else next(new Error("Owner does not exist"));
+        if(check) next();
+        else next(new Error("Owner does not exist"));
     });
+}
+
+export function checkBalance(req: any, res: any, next: any) : void {
+    Controller.checkBalance(req.body.owner,req.body.modality).then((check) => {
+        if(check) next();
+        else next(ErrorEnum.Unauthorized);
+    })
 }
 
 export function delete_event (req: any, res: any, next: any) : void {

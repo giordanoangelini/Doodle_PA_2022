@@ -1,6 +1,7 @@
 import * as express from 'express';
 import * as Controller from './controller';
-import * as Middleware from './middleware/middleware_chains'
+import * as Middleware from './middleware/middleware_chain'
+import { getError, ErrorEnum } from './factory/error';
 
 const app = express();
 app.use(express.json());
@@ -38,6 +39,17 @@ app.post('/delete-event', Middleware.JWT, Middleware.delete_event, Middleware.er
 // Richiesta che restituisce le prenotazioni effettuate per un certo evento (Autenticazione JWT)
 app.get('/show-bookings', Middleware.JWT, Middleware.show_bookings, Middleware.error_handling, function (req: any, res: any) {
     //Controller.showEvents(req.user.id, res);
+});
+
+// Gestione delle rotte non previste
+app.get('*', function(req, res, next) {
+    const err = getError(ErrorEnum.NotFound).getErrorObj();
+    res.status(err.status).json(err.msg);
+});
+
+app.post('*', function(req, res, next) {
+    const err = getError(ErrorEnum.NotFound).getErrorObj();
+    res.status(err.status).json(err.msg);
 });
 
 app.listen(8080);

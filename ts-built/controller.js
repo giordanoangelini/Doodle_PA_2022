@@ -36,21 +36,14 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.showEvents = exports.checkUserbyEmail = exports.createEvent = void 0;
+exports.showEvents = exports.createEvent = exports.checkBalance = exports.checkUserbyEmail = void 0;
+var error_1 = require("./factory/error");
+var success_1 = require("./factory/success");
 var model_1 = require("./model");
 var hashDecreaseToken = new Map();
 hashDecreaseToken.set(1, 1);
 hashDecreaseToken.set(2, 2);
 hashDecreaseToken.set(3, 4);
-function createEvent(event, res) {
-    model_1.Event.create(event).then(function (item) {
-        res.json({ "Response": "DONE: create event", "Event": item });
-        model_1.User.decrement(['token'], { by: hashDecreaseToken.get(event.modality), where: { email: event.owner } });
-    })["catch"](function (error) {
-        console.log(error);
-    });
-}
-exports.createEvent = createEvent;
 function checkUserbyEmail(email) {
     return __awaiter(this, void 0, void 0, function () {
         var result;
@@ -69,11 +62,42 @@ function checkUserbyEmail(email) {
     });
 }
 exports.checkUserbyEmail = checkUserbyEmail;
+function checkBalance(email, modality) {
+    return __awaiter(this, void 0, void 0, function () {
+        var result;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, model_1.User.findAll({ raw: true, where: { email: email } })];
+                case 1:
+                    result = _a.sent();
+                    if (result[0].token >= hashDecreaseToken.get(modality))
+                        return [2 /*return*/, true];
+                    return [2 /*return*/, false];
+            }
+        });
+    });
+}
+exports.checkBalance = checkBalance;
+function createEvent(event, res) {
+    model_1.Event.create(event).then(function (item) {
+        model_1.User.decrement(['token'], { by: hashDecreaseToken.get(event.modality), where: { email: event.owner } });
+        var new_res = (0, success_1.getSuccess)(success_1.SuccessEnum.EventCreated).getSuccObj();
+        res.status(new_res.status).json({ "Message": new_res.msg, "Item": item });
+    })["catch"](function () {
+        controllerErrors(error_1.ErrorEnum.InternalServer, res);
+    });
+}
+exports.createEvent = createEvent;
 function showEvents(email, res) {
     model_1.Event.findAll({ where: { owner: email } }).then(function (items) {
         res.json(items);
-    })["catch"](function (error) {
-        console.log(error);
+    })["catch"](function () {
+        controllerErrors(error_1.ErrorEnum.NotFound, res);
     });
 }
 exports.showEvents = showEvents;
+function controllerErrors(err, res) {
+    var new_err = (0, error_1.getError)(err).getErrorObj();
+    console.log(new_err);
+    res.status(new_err.status).send(new_err.msg);
+}

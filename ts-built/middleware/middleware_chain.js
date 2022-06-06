@@ -10,14 +10,15 @@ exports.JWT = [
 ];
 exports.NONJWT = [
     RequestMiddleware.checkPayloadHeader,
-    RequestMiddleware.checkPayload
+    RequestMiddleware.checkJSONPayload
 ];
 exports.create_event = [
-    RouteMiddleware.check_value_create_event,
-    RouteMiddleware.check_owner_exist
+    RouteMiddleware.checkPayload,
+    RouteMiddleware.checkOwner,
+    RouteMiddleware.checkBalance
 ];
 exports.show_events = [
-    RouteMiddleware.check_owner_exist
+    RouteMiddleware.checkOwner
 ];
 exports.close_event = [];
 exports.book = [];

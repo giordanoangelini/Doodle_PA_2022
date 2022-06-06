@@ -1,27 +1,24 @@
 "use strict";
 exports.__esModule = true;
-exports.errorHandler = exports.logErrors = exports.checkPayload = exports.verifyAndAuthenticate = exports.checkToken = exports.checkPayloadHeader = exports.checkAuthHeader = void 0;
+exports.errorHandler = exports.logErrors = exports.checkJSONPayload = exports.verifyAndAuthenticate = exports.checkToken = exports.checkPayloadHeader = exports.checkAuthHeader = void 0;
 require('dotenv').config();
 var jwt = require("jsonwebtoken");
+var error_1 = require("../factory/error");
 // Controlla che la richiesta HTTP abbia un Authorization Header
 function checkAuthHeader(req, res, next) {
-    if (req.headers.authorization) {
-        console.log('checkAuthHeader MW Passed');
+    if (req.headers.authorization)
         next();
-    }
     else
-        next(new Error("No Authorization Header"));
+        next(error_1.ErrorEnum.NoAuthHeader);
 }
 exports.checkAuthHeader = checkAuthHeader;
 /* Controlla che la richiesta HTTP abbia un Content Header che specifichi
  * il tipo di contenuto 'application/json' */
 function checkPayloadHeader(req, res, next) {
-    if (req.headers["content-type"] == 'application/json') {
-        console.log('checkPayloadHeader MW Passed');
+    if (req.headers["content-type"] == 'application/json')
         next();
-    }
     else
-        next(new Error("No JSON Payload Header"));
+        next(error_1.ErrorEnum.NoPayloadHeader);
 }
 exports.checkPayloadHeader = checkPayloadHeader;
 // Controlla che nell'header compaia il TOKEN
@@ -30,11 +27,10 @@ function checkToken(req, res, next) {
     if (typeof bearerHeader !== 'undefined') {
         var bearerToken = bearerHeader.split(' ')[1];
         req.token = bearerToken;
-        console.log('checkToken MW Passed');
         next();
     }
     else
-        res.send(403);
+        next(error_1.ErrorEnum.Forbidden);
 }
 exports.checkToken = checkToken;
 // Verifica la chiave segreta del TOKEN
@@ -43,35 +39,34 @@ function verifyAndAuthenticate(req, res, next) {
         var decoded = jwt.verify(req.token, process.env.KEY);
         if (decoded != null) {
             req.body = decoded;
-            console.log('verifyAndAuthenticate MW Passed');
             next();
         }
     }
     catch (error) {
-        next(error);
+        next(error_1.ErrorEnum.Forbidden);
     }
 }
 exports.verifyAndAuthenticate = verifyAndAuthenticate;
 // Controlla che la richiesta HTTP abbia un JSON ben formattato nel body
-function checkPayload(req, res, next) {
+function checkJSONPayload(req, res, next) {
     try {
         req.body = JSON.parse(JSON.stringify(req.body));
-        console.log('checkPayload MW Passed');
         next();
     }
     catch (error) {
-        next(error);
+        next(error_1.ErrorEnum.MalformedPayload);
     }
 }
-exports.checkPayload = checkPayload;
+exports.checkJSONPayload = checkJSONPayload;
 // Stampa gli errori sulla console
 function logErrors(err, req, res, next) {
-    console.error(err.stack);
-    next(err);
+    var new_err = (0, error_1.getError)(err).getErrorObj();
+    console.log(new_err);
+    next(new_err);
 }
 exports.logErrors = logErrors;
 // Ritorna nella response l'errore sollevato
 function errorHandler(err, req, res, next) {
-    res.status(500).send({ "Error": err.message });
+    res.status(err.status).send(err.msg);
 }
 exports.errorHandler = errorHandler;
