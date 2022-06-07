@@ -96,6 +96,6 @@ export function refill(refill: any, res: any): void {
 function controllerErrors(err: ErrorEnum, res: any) {
     const new_err = getError(err).getErrorObj();
     console.log(new_err);
-    res.status(new_err.status).send(new_err.msg);
+    res.status(new_err.status).json(new_err.msg);
 }
     

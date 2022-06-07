@@ -11,18 +11,15 @@ export function checkPayload(req: any, res: any, next: any) : void {
         next();
     } else next(ErrorEnum.MalformedPayload);
 }
-
 function checkDatetime(datetime: string): boolean {
     const check = new RegExp(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[+-]\d{2}:\d{2}$/);
     return (!check.test(datetime) || !Date.parse(datetime));
 }
-
 function checkDatetimes(datetime: string[]): boolean {
     const array: string[] = datetime.filter(checkDatetime);
     console.log(array);
     return array.length == 0;
 }
-
 function checkCoordinates(latitude: number, longitude: number): boolean {
     if(latitude && !longitude || !latitude && longitude) return false;
     if(latitude == null && longitude == null) return true;

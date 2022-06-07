@@ -48,6 +48,10 @@ export function verifyAndAuthenticate (req: any, res: any, next: any): void{
     }
 }
 
+export function notFound(req: any, res: any, next: any) {
+    next(ErrorEnum.NotFound);
+}
+
 // Stampa gli errori sulla console
 export function logErrors (err: ErrorEnum, req: any, res: any, next: any): void {
     const new_err = getError(err).getErrorObj();
@@ -57,5 +61,5 @@ export function logErrors (err: ErrorEnum, req: any, res: any, next: any): void 
 
 // Ritorna nella response l'errore sollevato
 export function errorHandler (err: any, req: any, res: any, next: any): void { 
-    res.status(err.status).send(err.msg);
+    res.status(err.status).json(err.msg);
 }

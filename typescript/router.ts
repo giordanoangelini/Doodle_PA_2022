@@ -42,14 +42,7 @@ app.post('/refill', Middleware.JWT, Middleware.refill, Middleware.error_handling
 });
 
 // Gestione delle rotte non previste
-app.get('*', function(req, res, next) {
-    const err = getError(ErrorEnum.NotFound).getErrorObj();
-    res.status(err.status).json(err.msg);
-});
-
-app.post('*', function(req, res, next) {
-    const err = getError(ErrorEnum.NotFound).getErrorObj();
-    res.status(err.status).json(err.msg);
-});
+app.get('*', Middleware.any_other, Middleware.error_handling);
+app.post('*', Middleware.any_other, Middleware.error_handling);
 
 app.listen(8080);

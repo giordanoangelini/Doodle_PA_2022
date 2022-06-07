@@ -46,6 +46,10 @@ export const refill = [
     RouteMiddleware.checkUserExistence_REFILL
 ];
 
+export const any_other = [
+    RequestMiddleware.notFound
+]
+
 export const error_handling =[
     RequestMiddleware.logErrors,
     RequestMiddleware.errorHandler
