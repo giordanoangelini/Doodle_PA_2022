@@ -20,9 +20,49 @@ class ShowEvents implements SuccessObj {
     }
 }
 
+class EventDeleted implements SuccessObj {
+    getSuccObj(): { status : number,  msg : string } {
+        return {
+            status: 200,
+            msg: "SUCCESS - Event deleted succesfully"
+        }
+    }
+}
+
+class EventClosed implements SuccessObj {
+    getSuccObj(): { status : number,  msg : string } {
+        return {
+            status: 200,
+            msg: "SUCCESS - Event bookings closed succesfully"
+        }
+    }
+}
+
+class ShowBookings implements SuccessObj {
+    getSuccObj(): { status : number,  msg : string } {
+        return {
+            status: 200,
+            msg: "SUCCESS - Event bookings displayed succesfully"
+        }
+    }
+}
+
+class TokenRefill implements SuccessObj {
+    getSuccObj(): { status : number,  msg : string } {
+        return {
+            status: 200,
+            msg: "SUCCESS - Tokens refilled succesfully"
+        }
+    }
+}
+
 export enum SuccessEnum {
     // 200
     ShowEvents,
+    EventDeleted,
+    EventClosed,
+    ShowBookings,
+    TokenRefill,
     // 201
     EventCreated
 }
@@ -35,7 +75,19 @@ export function getSuccess(type: SuccessEnum): SuccessObj{
             break;
         case SuccessEnum.ShowEvents:
             retval = new ShowEvents();  
-            break;        
+            break; 
+        case SuccessEnum.EventDeleted:
+            retval = new EventDeleted();
+            break;
+        case SuccessEnum.EventClosed:
+            retval = new EventClosed();
+            break;
+        case SuccessEnum.ShowBookings:
+            retval = new ShowBookings();
+            break;
+        case SuccessEnum.TokenRefill:
+            retval = new TokenRefill();
+            break;
     }
     return retval;
 }

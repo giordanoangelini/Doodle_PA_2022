@@ -13,28 +13,37 @@ export const NONJWT = [
 ];
 
 export const create_event = [
-    RouteMiddleware.checkPayload_CreateEvent,
-    RouteMiddleware.checkOwner,
-    RouteMiddleware.checkBalance
+    RouteMiddleware.checkPayload,
+    RouteMiddleware.checkUserExistence,
+    RouteMiddleware.checkUserBalance
 ];
 
 export const show_events = [
-    RouteMiddleware.checkOwner
+    RouteMiddleware.checkUserExistence
+];
+
+export const delete_event = [
+    RouteMiddleware.checkEventExistence,
+    RouteMiddleware.checkEventOwner,
+    RouteMiddleware.checkEventBookings
 ];
 
 export const close_event = [
+    RouteMiddleware.checkEventExistence,
+    RouteMiddleware.checkEventOwner
+];
+
+export const show_bookings = [
+    RouteMiddleware.checkEventExistence,
+    RouteMiddleware.checkEventOwner
 ];
 
 export const book = [
 ];
 
 export const refill = [
-];
-
-export const delete_event = [
-];
-
-export const show_bookings = [
+    RouteMiddleware.checkAdmin,
+    RouteMiddleware.checkUserExistence_REFILL
 ];
 
 export const error_handling =[

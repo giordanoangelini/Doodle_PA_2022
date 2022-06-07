@@ -1,23 +1,19 @@
 import * as Controller from '../controller';
 import { ErrorEnum } from '../factory/error';
 
-// Controlla 
-export function checkPayload_CreateEvent(req: any, res: any, next: any) : void {
+// Controlla che i valori contenuti nel payload siano compatibili
+export function checkPayload(req: any, res: any, next: any) : void {
     if (typeof req.body.title == 'string' && 
-        typeof req.body.owner == 'string' && 
-        typeof req.body.utc == 'string' && // /^(UTC){1}[+]{1}[0-9]{1}$|^(UTC){1}[+]{1}1{1}[0-4]{1}$|^(UTC){1}[-]{1}[0-9]{1}$|^(UTC){1}[-]{1}1{1}[0-2]{1}$/
+        typeof req.body.link == 'string' &&
         [1,2,3].includes(req.body.modality) &&
-        checkDatetimes(req.body.datetimes) &&  
-        [0,1].includes(req.body.status) &&
-        checkCoordinates(req.body.latitude, req.body.longitude) &&
-        typeof req.body.link == 'string' // /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
-        ) {
+        checkDatetimes(req.body.datetimes) &&
+        checkCoordinates(req.body.latitude, req.body.longitude)) {
         next();
     } else next(ErrorEnum.MalformedPayload);
 }
 
 function checkDatetime(datetime: string): boolean {
-    const check = new RegExp(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/);
+    const check = new RegExp(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[+-]\d{2}:\d{2}$/);
     return (!check.test(datetime) || !Date.parse(datetime));
 }
 
@@ -33,36 +29,49 @@ function checkCoordinates(latitude: number, longitude: number): boolean {
     return (latitude <= 90 && latitude >= -90) && (longitude <= 180 && longitude >= -180);
 }
 
-export function checkOwner(req: any, res: any, next: any) : void {
-    Controller.checkUserbyEmail(req.body.owner).then((check) => {
+export function checkUserExistence(req: any, res: any, next: any) : void {
+    Controller.checkUserExistence(req.body.owner).then((check) => {
         if(check) next();
-        else next(new Error("Owner does not exist"));
+        else next(ErrorEnum.NotFound);
     });
 }
 
-export function checkBalance(req: any, res: any, next: any) : void {
+export function checkUserBalance(req: any, res: any, next: any): void {
     Controller.checkBalance(req.body.owner,req.body.modality).then((check) => {
         if(check) next();
         else next(ErrorEnum.Unauthorized);
     })
 }
 
-export function delete_event (req: any, res: any, next: any) : void {
-    next();
+export function checkEventExistence(req: any, res: any, next: any): void {
+    Controller.checkEventExistence(req.body.event_id).then((check) => {
+        if(check) next();
+        else next(ErrorEnum.NotFound);
+    })
 }
 
-export function close_event (req: any, res: any, next: any) : void {
-    next();
+export function checkEventOwner(req: any, res: any, next: any): void {
+    Controller.checkEventOwner(req.body.event_id, req.body.sender_id).then((check) => {
+        if(check) next();
+        else next(ErrorEnum.Unauthorized);
+    })
 }
 
-export function show_bookings (req: any, res: any, next: any) : void {
-    next();
+export function checkEventBookings(req: any, res: any, next: any): void {
+    Controller.getEventBookings(req.body.event_id).then((check: any) => {
+        if(check.length == 0) next();
+        else next(ErrorEnum.Forbidden);
+    })
 }
 
-export function book (req: any, res: any, next: any) : void {
-    next();
+export function checkAdmin(req: any, res: any, next: any): void {
+    if(req.body.sender_role == 'admin') next();
+    else next(ErrorEnum.Unauthorized);
 }
 
-export function refill (req: any, res: any, next: any) : void {
-    next();
+export function checkUserExistence_REFILL(req: any, res: any, next: any) : void {
+    Controller.checkUserExistence(req.body.email).then((check) => {
+        if(check) next();
+        else next(ErrorEnum.NotFound);
+    });
 }

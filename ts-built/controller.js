@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
-exports.showEvents = exports.createEvent = exports.checkBalance = exports.checkUserbyEmail = void 0;
+exports.refill = exports.showBookings = exports.closeEvent = exports.deleteEvent = exports.getEventBookings = exports.checkEventExistence = exports.checkEventOwner = exports.showEvents = exports.createEvent = exports.checkBalance = exports.checkUserExistence = void 0;
 var error_1 = require("./factory/error");
 var success_1 = require("./factory/success");
 var model_1 = require("./model");
@@ -45,7 +45,7 @@ hashDecreaseToken.set(1, 1);
 hashDecreaseToken.set(2, 2);
 hashDecreaseToken.set(3, 4);
 // Funzione che controlla se un utente esiste data la sua email
-function checkUserbyEmail(email) {
+function checkUserExistence(email) {
     return __awaiter(this, void 0, void 0, function () {
         var result;
         return __generator(this, function (_a) {
@@ -53,26 +53,22 @@ function checkUserbyEmail(email) {
                 case 0: return [4 /*yield*/, model_1.User.findByPk(email)];
                 case 1:
                     result = _a.sent();
-                    if (result)
-                        return [2 /*return*/, true];
-                    else
-                        return [2 /*return*/, false];
-                    return [2 /*return*/];
+                    return [2 /*return*/, result];
             }
         });
     });
 }
-exports.checkUserbyEmail = checkUserbyEmail;
+exports.checkUserExistence = checkUserExistence;
 // Funzione che controlla che un utente abbia la quantità di token sufficienti a creare l'evento 
 function checkBalance(email, modality) {
     return __awaiter(this, void 0, void 0, function () {
         var result;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, model_1.User.findAll({ raw: true, where: { email: email } })];
+                case 0: return [4 /*yield*/, model_1.User.findByPk(email, { raw: true })];
                 case 1:
                     result = _a.sent();
-                    if (result[0].token >= hashDecreaseToken.get(modality))
+                    if (result.token >= hashDecreaseToken.get(modality))
                         return [2 /*return*/, true];
                     return [2 /*return*/, false];
             }
@@ -98,10 +94,88 @@ function showEvents(email, res) {
         var new_res = (0, success_1.getSuccess)(success_1.SuccessEnum.ShowEvents).getSuccObj();
         res.status(new_res.status).json({ "message": new_res.msg, "active_events": active, "inactive_events": inactive });
     })["catch"](function () {
-        controllerErrors(error_1.ErrorEnum.NotFound, res);
+        controllerErrors(error_1.ErrorEnum.InternalServer, res);
     });
 }
 exports.showEvents = showEvents;
+function checkEventOwner(event_id, owner) {
+    return __awaiter(this, void 0, void 0, function () {
+        var result;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, model_1.Event.findByPk(event_id, { raw: true })];
+                case 1:
+                    result = _a.sent();
+                    return [2 /*return*/, result.owner == owner];
+            }
+        });
+    });
+}
+exports.checkEventOwner = checkEventOwner;
+function checkEventExistence(event_id) {
+    return __awaiter(this, void 0, void 0, function () {
+        var result;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, model_1.Event.findByPk(event_id)];
+                case 1:
+                    result = _a.sent();
+                    return [2 /*return*/, result];
+            }
+        });
+    });
+}
+exports.checkEventExistence = checkEventExistence;
+function getEventBookings(event_id) {
+    return __awaiter(this, void 0, void 0, function () {
+        var result;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, model_1.Preference.findAll({ raw: true, where: { event_id: event_id } })];
+                case 1:
+                    result = _a.sent();
+                    return [2 /*return*/, result];
+            }
+        });
+    });
+}
+exports.getEventBookings = getEventBookings;
+function deleteEvent(event_id, res) {
+    model_1.Event.destroy({ where: { id: event_id } }).then(function () {
+        var new_res = (0, success_1.getSuccess)(success_1.SuccessEnum.EventDeleted).getSuccObj();
+        res.status(new_res.status).json({ "message": new_res.msg });
+    })["catch"](function () {
+        controllerErrors(error_1.ErrorEnum.InternalServer, res);
+    });
+}
+exports.deleteEvent = deleteEvent;
+function closeEvent(event_id, res) {
+    model_1.Event.update({ status: 0 }, { where: { id: event_id } }).then(function () {
+        var new_res = (0, success_1.getSuccess)(success_1.SuccessEnum.EventClosed).getSuccObj();
+        res.status(new_res.status).json({ "message": new_res.msg });
+    })["catch"](function () {
+        controllerErrors(error_1.ErrorEnum.InternalServer, res);
+    });
+}
+exports.closeEvent = closeEvent;
+function showBookings(event_id, res) {
+    getEventBookings(event_id).then(function (items) {
+        var new_res = (0, success_1.getSuccess)(success_1.SuccessEnum.ShowBookings).getSuccObj();
+        res.status(new_res.status).json({ "message": new_res.msg, "bookings": items });
+    })["catch"](function () {
+        controllerErrors(error_1.ErrorEnum.InternalServer, res);
+    });
+}
+exports.showBookings = showBookings;
+function refill(refill, res) {
+    model_1.User.update({ token: refill.token }, { where: { email: refill.email } }).then(function () {
+        var new_res = (0, success_1.getSuccess)(success_1.SuccessEnum.TokenRefill).getSuccObj();
+        res.status(new_res.status).json({ "message": new_res.msg });
+    })["catch"](function () {
+        controllerErrors(error_1.ErrorEnum.InternalServer, res);
+    });
+}
+exports.refill = refill;
 function controllerErrors(err, res) {
     var new_err = (0, error_1.getError)(err).getErrorObj();
     console.log(new_err);

@@ -19,7 +19,7 @@ exports.User = sequelize.define('user', {
         allowNull: false
     },
     role: {
-        type: sequelize_2.DataTypes.TINYINT,
+        type: sequelize_2.DataTypes.STRING(5),
         allowNull: false
     },
     token: {
@@ -38,15 +38,11 @@ exports.Event = sequelize.define('event', {
         autoIncrement: true
     },
     title: {
-        type: sequelize_2.DataTypes.STRING,
+        type: sequelize_2.DataTypes.STRING(100),
         allowNull: false
     },
     owner: {
         type: sequelize_2.DataTypes.INTEGER,
-        allowNull: false
-    },
-    utc: {
-        type: sequelize_2.DataTypes.TINYINT,
         allowNull: false
     },
     modality: {
@@ -59,7 +55,8 @@ exports.Event = sequelize.define('event', {
     },
     status: {
         type: sequelize_2.DataTypes.TINYINT,
-        allowNull: false
+        allowNull: false,
+        defaultValue: 1
     },
     latitude: {
         type: sequelize_2.DataTypes.FLOAT,
@@ -70,7 +67,7 @@ exports.Event = sequelize.define('event', {
         defaultValue: null
     },
     link: {
-        type: sequelize_2.DataTypes.STRING,
+        type: sequelize_2.DataTypes.STRING(100),
         defaultValue: null
     }
 }, {
@@ -85,11 +82,11 @@ exports.Preference = sequelize.define('preference', {
         autoIncrement: true
     },
     datetime: {
-        type: sequelize_2.DataTypes.STRING,
+        type: sequelize_2.DataTypes.STRING(25),
         primaryKey: true
     },
     email: {
-        type: sequelize_2.DataTypes.STRING,
+        type: sequelize_2.DataTypes.STRING(100),
         primaryKey: true
     },
     name: {

@@ -1,27 +1,23 @@
 "use strict";
 exports.__esModule = true;
-exports.refill = exports.book = exports.show_bookings = exports.close_event = exports.delete_event = exports.checkBalance = exports.checkOwner = exports.checkPayload_CreateEvent = void 0;
+exports.checkUserExistence_REFILL = exports.checkAdmin = exports.checkEventBookings = exports.checkEventOwner = exports.checkEventExistence = exports.checkUserBalance = exports.checkUserExistence = exports.checkPayload = void 0;
 var Controller = require("../controller");
 var error_1 = require("../factory/error");
-// Controlla 
-function checkPayload_CreateEvent(req, res, next) {
+// Controlla che i valori contenuti nel payload siano compatibili
+function checkPayload(req, res, next) {
     if (typeof req.body.title == 'string' &&
-        typeof req.body.owner == 'string' &&
-        typeof req.body.utc == 'string' && // /^(UTC){1}[+]{1}[0-9]{1}$|^(UTC){1}[+]{1}1{1}[0-4]{1}$|^(UTC){1}[-]{1}[0-9]{1}$|^(UTC){1}[-]{1}1{1}[0-2]{1}$/
+        typeof req.body.link == 'string' &&
         [1, 2, 3].includes(req.body.modality) &&
         checkDatetimes(req.body.datetimes) &&
-        [0, 1].includes(req.body.status) &&
-        checkCoordinates(req.body.latitude, req.body.longitude) &&
-        typeof req.body.link == 'string' // /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
-    ) {
+        checkCoordinates(req.body.latitude, req.body.longitude)) {
         next();
     }
     else
         next(error_1.ErrorEnum.MalformedPayload);
 }
-exports.checkPayload_CreateEvent = checkPayload_CreateEvent;
+exports.checkPayload = checkPayload;
 function checkDatetime(datetime) {
-    var check = new RegExp(/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/);
+    var check = new RegExp(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}[+-]\d{2}:\d{2}$/);
     return (!check.test(datetime) || !Date.parse(datetime));
 }
 function checkDatetimes(datetime) {
@@ -36,16 +32,16 @@ function checkCoordinates(latitude, longitude) {
         return true;
     return (latitude <= 90 && latitude >= -90) && (longitude <= 180 && longitude >= -180);
 }
-function checkOwner(req, res, next) {
-    Controller.checkUserbyEmail(req.body.owner).then(function (check) {
+function checkUserExistence(req, res, next) {
+    Controller.checkUserExistence(req.body.owner).then(function (check) {
         if (check)
             next();
         else
-            next(new Error("Owner does not exist"));
+            next(error_1.ErrorEnum.NotFound);
     });
 }
-exports.checkOwner = checkOwner;
-function checkBalance(req, res, next) {
+exports.checkUserExistence = checkUserExistence;
+function checkUserBalance(req, res, next) {
     Controller.checkBalance(req.body.owner, req.body.modality).then(function (check) {
         if (check)
             next();
@@ -53,24 +49,47 @@ function checkBalance(req, res, next) {
             next(error_1.ErrorEnum.Unauthorized);
     });
 }
-exports.checkBalance = checkBalance;
-function delete_event(req, res, next) {
-    next();
+exports.checkUserBalance = checkUserBalance;
+function checkEventExistence(req, res, next) {
+    Controller.checkEventExistence(req.body.event_id).then(function (check) {
+        if (check)
+            next();
+        else
+            next(error_1.ErrorEnum.NotFound);
+    });
 }
-exports.delete_event = delete_event;
-function close_event(req, res, next) {
-    next();
+exports.checkEventExistence = checkEventExistence;
+function checkEventOwner(req, res, next) {
+    Controller.checkEventOwner(req.body.event_id, req.body.sender_id).then(function (check) {
+        if (check)
+            next();
+        else
+            next(error_1.ErrorEnum.Unauthorized);
+    });
 }
-exports.close_event = close_event;
-function show_bookings(req, res, next) {
-    next();
+exports.checkEventOwner = checkEventOwner;
+function checkEventBookings(req, res, next) {
+    Controller.getEventBookings(req.body.event_id).then(function (check) {
+        if (check.length == 0)
+            next();
+        else
+            next(error_1.ErrorEnum.Forbidden);
+    });
 }
-exports.show_bookings = show_bookings;
-function book(req, res, next) {
-    next();
+exports.checkEventBookings = checkEventBookings;
+function checkAdmin(req, res, next) {
+    if (req.body.sender_role == 'admin')
+        next();
+    else
+        next(error_1.ErrorEnum.Unauthorized);
 }
-exports.book = book;
-function refill(req, res, next) {
-    next();
+exports.checkAdmin = checkAdmin;
+function checkUserExistence_REFILL(req, res, next) {
+    Controller.checkUserExistence(req.body.email).then(function (check) {
+        if (check)
+            next();
+        else
+            next(error_1.ErrorEnum.NotFound);
+    });
 }
-exports.refill = refill;
+exports.checkUserExistence_REFILL = checkUserExistence_REFILL;
