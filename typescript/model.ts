@@ -46,7 +46,7 @@ export const Event = sequelize.define('event', {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    gmt: {
+    utc: {
         type: DataTypes.TINYINT,
         allowNull: false
     },

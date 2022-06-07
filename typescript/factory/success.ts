@@ -11,8 +11,18 @@ class EventCreated implements SuccessObj {
     }
 }
 
+class ShowEvents implements SuccessObj {
+    getSuccObj(): { status : number,  msg : string } {
+        return {
+            status: 200,
+            msg: "SUCCESS - Events displayed succesfully"
+        }
+    }
+}
+
 export enum SuccessEnum {
     // 200
+    ShowEvents,
     // 201
     EventCreated
 }
@@ -22,7 +32,10 @@ export function getSuccess(type: SuccessEnum): SuccessObj{
     switch (type){
         case SuccessEnum.EventCreated:
             retval = new EventCreated();
-            break;          
+            break;
+        case SuccessEnum.ShowEvents:
+            retval = new ShowEvents();  
+            break;        
     }
     return retval;
 }

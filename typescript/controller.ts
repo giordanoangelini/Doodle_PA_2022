@@ -26,15 +26,18 @@ export function createEvent(event: any, res: any): void{
     Event.create(event).then((item) => {
         User.decrement(['token'], {by: hashDecreaseToken.get(event.modality), where: { email: event.owner } });
         const new_res = getSuccess(SuccessEnum.EventCreated).getSuccObj();
-        res.status(new_res.status).json({"message":new_res.msg,"item":item});
+        res.status(new_res.status).json({"message":new_res.msg,"event":item});
     }).catch(() => {
         controllerErrors(ErrorEnum.InternalServer, res);
     });
 }
 
 export function showEvents(email: string, res: any): void{
-    Event.findAll({where: { owner : email }}).then((items) => {
-        res.json(items);
+    Event.findAll({raw: true, where: { owner : email }}).then((items: object[]) => {
+        const active: object[] = items.filter((element: {status: number}) => element.status == 1);
+        const inactive: object[] = items.filter((element: {status: number}) => element.status == 0);
+        const new_res = getSuccess(SuccessEnum.ShowEvents).getSuccObj();
+        res.status(new_res.status).json({"message":new_res.msg,"active_events":active,"inactive_events":inactive});
     }).catch(() => {
         controllerErrors(ErrorEnum.NotFound, res);
     });

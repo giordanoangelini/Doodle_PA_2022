@@ -85,15 +85,18 @@ function createEvent(event, res) {
     model_1.Event.create(event).then(function (item) {
         model_1.User.decrement(['token'], { by: hashDecreaseToken.get(event.modality), where: { email: event.owner } });
         var new_res = (0, success_1.getSuccess)(success_1.SuccessEnum.EventCreated).getSuccObj();
-        res.status(new_res.status).json({ "message": new_res.msg, "item": item });
+        res.status(new_res.status).json({ "message": new_res.msg, "event": item });
     })["catch"](function () {
         controllerErrors(error_1.ErrorEnum.InternalServer, res);
     });
 }
 exports.createEvent = createEvent;
 function showEvents(email, res) {
-    model_1.Event.findAll({ where: { owner: email } }).then(function (items) {
-        res.json(items);
+    model_1.Event.findAll({ raw: true, where: { owner: email } }).then(function (items) {
+        var active = items.filter(function (element) { return element.status == 1; });
+        var inactive = items.filter(function (element) { return element.status == 0; });
+        var new_res = (0, success_1.getSuccess)(success_1.SuccessEnum.ShowEvents).getSuccObj();
+        res.status(new_res.status).json({ "message": new_res.msg, "active_events": active, "inactive_events": inactive });
     })["catch"](function () {
         controllerErrors(error_1.ErrorEnum.NotFound, res);
     });

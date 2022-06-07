@@ -5,10 +5,13 @@ import { ErrorEnum } from '../factory/error';
 export function checkPayload_CreateEvent(req: any, res: any, next: any) : void {
     if (typeof req.body.title == 'string' && 
         typeof req.body.owner == 'string' && 
-        typeof req.body.gmt == 'string' && // ^(UTC){1}[+]{1}[0-9]{1}$|^(UTC){1}[+]{1}1{1}[0-4]{1}$|^(UTC){1}[-]{1}[0-9]{1}$|^(UTC){1}[-]{1}1{1}[0-2]{1}$
+        typeof req.body.utc == 'string' && // /^(UTC){1}[+]{1}[0-9]{1}$|^(UTC){1}[+]{1}1{1}[0-4]{1}$|^(UTC){1}[-]{1}[0-9]{1}$|^(UTC){1}[-]{1}1{1}[0-2]{1}$/
         [1,2,3].includes(req.body.modality) &&
         checkDatetimes(req.body.datetimes) &&  
-        [0,1].includes(req.body.status)) {
+        [0,1].includes(req.body.status) &&
+        checkCoordinates(req.body.latitude, req.body.longitude) &&
+        typeof req.body.link == 'string' // /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
+        ) {
         next();
     } else next(ErrorEnum.MalformedPayload);
 }
@@ -22,6 +25,12 @@ function checkDatetimes(datetime: string[]): boolean {
     const array: string[] = datetime.filter(checkDatetime);
     console.log(array);
     return array.length == 0;
+}
+
+function checkCoordinates(latitude: number, longitude: number): boolean {
+    if(latitude && !longitude || !latitude && longitude) return false;
+    if(latitude == null && longitude == null) return true;
+    return (latitude <= 90 && latitude >= -90) && (longitude <= 180 && longitude >= -180);
 }
 
 export function checkOwner(req: any, res: any, next: any) : void {
