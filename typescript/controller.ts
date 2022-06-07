@@ -1,6 +1,10 @@
+import { Sequelize } from 'sequelize';
 import { ErrorEnum, getError } from './factory/error';
 import { SuccessEnum, getSuccess } from './factory/success';
 import { User, Event, Preference } from './model';
+import { SequelizeSingleton } from './singleton/sequelize';
+
+const sequelize: Sequelize = SequelizeSingleton.getConnection();
 
 let hashDecreaseToken: Map<number, number> = new Map();
 hashDecreaseToken.set(1,1); 
@@ -52,6 +56,11 @@ export async function checkEventExistence(event_id: number): Promise<boolean> {
     return result;
 }
 
+export async function getEventModality(event_id: number): Promise<number> {
+    const result: any = await Event.findByPk(event_id);
+    return result.modality;
+}
+
 export async function getEventBookings(event_id: number): Promise<object> {
     const result: any = await Preference.findAll({raw: true, where: { event_id: event_id}});
     return result;
@@ -75,12 +84,25 @@ export function closeEvent(event_id: number, res: any): void {
     });
 }
 
-export function showBookings(event_id: number, res: any): void {
-    getEventBookings(event_id).then((items) => {
-        const new_res = getSuccess(SuccessEnum.ShowBookings).getSuccObj();
-        res.status(new_res.status).json({"message":new_res.msg, "bookings":items});
-    }).catch(() => {
-        controllerErrors(ErrorEnum.InternalServer, res);
+export function showBookings(event_id: number, limit: number, res: any): void {
+    getEventModality(event_id).then((modality: number) => {
+        if(limit && modality == 1){
+            sequelize.query(`SELECT datetime, COUNT(*) as occurrences FROM preference GROUP BY datetime ORDER BY occurrences DESC LIMIT ${limit}`).then((items) => {
+                const new_res = getSuccess(SuccessEnum.ShowBookings).getSuccObj();
+                res.status(new_res.status).json({"message":new_res.msg, "bookings":items[0]});
+            }).catch(() => {
+                controllerErrors(ErrorEnum.InternalServer, res);
+            });
+        } else if (!limit && modality == 1) {
+            controllerErrors(ErrorEnum.BadRequest, res);
+        } else {
+            getEventBookings(event_id).then((items) => {
+                const new_res = getSuccess(SuccessEnum.ShowBookings).getSuccObj();
+                res.status(new_res.status).json({"message":new_res.msg, "bookings":items});
+            }).catch(() => {
+                controllerErrors(ErrorEnum.InternalServer, res);
+            });
+        }
     });
 }
 

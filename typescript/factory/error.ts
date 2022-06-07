@@ -74,11 +74,21 @@ class ServiceUnavailableError implements ErrorObj {
     }
 }
 
+class BadRequest implements ErrorObj {
+    getErrorObj(): { status: number,  msg: string } {
+        return {
+            status: 400,
+            msg: "ERROR - Bad request"
+        }
+    }
+}
+
 export enum ErrorEnum {
     // 400
     NoAuthHeader,
     NoPayloadHeader,
     MalformedPayload,
+    BadRequest,
     Unauthorized, // 401
     Forbidden, // 403
     NotFound, // 404
@@ -112,7 +122,10 @@ export function getError(type: ErrorEnum): ErrorObj{
             break;
         case ErrorEnum.ServiceUnavailable:
             retval = new ServiceUnavailableError();
-            break;          
+            break;
+        case ErrorEnum.BadRequest:
+            retval = new BadRequest();
+            break;        
     }
     return retval;
 }

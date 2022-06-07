@@ -58,3 +58,11 @@ INSERT INTO event (title, owner, modality, datetimes, status, latitude, longitud
   ('Riunione di Staff', 'giordano@email.com', 1, '["2022-06-01T21:00:00+01:00","2022-06-02T21:00:00+01:00","2022-06-02T22:00:00+01:00"]', 1, NULL, NULL, NULL),
   ('Disponibilità sala studio', 'giordano@email.com', 2, '["2022-06-05+18:00:00+02:00","2022-06-05+19:00:00+01:00","2022-06-06T18:00:00+01:00"]', 1, NULL, NULL, NULL),
   ('Esame di Programmazione Avanzata', 'giordano@email.com', 3, '["2022-06-07T15:00:00+01:00","2022-06-08T15:00:00+01:00","2022-06-02T16:00:00+01:00"]', 1, NULL, NULL, NULL);
+
+INSERT INTO preference (event_id, datetime, email, name, surname) VALUES
+  (1, "2022-06-01T21:00:00+01:00", "mario@email.com", "Mario", "Rossi"),
+  (1, "2022-06-01T21:00:00+01:00", "luigi@email.com", "Luigi", "Rossi"),
+  (1, "2022-06-01T21:00:00+01:00", "giuseppe@email.com", "Giuseppe", "Rossi"),
+  (1, "2022-06-02T22:00:00+01:00", "mario@email.com", "Mario", "Rossi"),
+  (1, "2022-06-02T22:00:00+01:00", "luigi@email.com", "Luigi", "Rossi"),
+  (1, "2022-06-02T21:00:00+01:00", "giuseppe@email.com", "Giuseppe", "Rossi");

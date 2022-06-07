@@ -35,7 +35,8 @@ export const close_event = [
 
 export const show_bookings = [
     RouteMiddleware.checkEventExistence,
-    RouteMiddleware.checkEventOwner
+    RouteMiddleware.checkEventOwner,
+    RouteMiddleware.checkLimit
 ];
 
 export const book = [

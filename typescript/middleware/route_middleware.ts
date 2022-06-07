@@ -61,6 +61,13 @@ export function checkEventBookings(req: any, res: any, next: any): void {
     })
 }
 
+export function checkLimit(req: any, res: any, next: any): void {
+    if(req.body.limit){
+        if(typeof req.body.limit == 'number') next();
+        else next(ErrorEnum.MalformedPayload);
+    } else next();
+}
+
 export function checkAdmin(req: any, res: any, next: any): void {
     if(req.body.sender_role == 'admin') next();
     else next(ErrorEnum.Unauthorized);

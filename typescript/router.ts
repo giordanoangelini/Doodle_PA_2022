@@ -28,7 +28,7 @@ app.post('/close-event', Middleware.JWT, Middleware.close_event, Middleware.erro
 
 // Richiesta che restituisce le prenotazioni effettuate per un certo evento (Autenticazione JWT)
 app.get('/show-bookings', Middleware.JWT, Middleware.show_bookings, Middleware.error_handling, function (req: any, res: any) {
-    Controller.showBookings(req.body.event_id, res);
+    Controller.showBookings(req.body.event_id, req.body.limit, res);
 });
 
 // Richiesta che permette di effettuare una prenotazione per un certo evento
