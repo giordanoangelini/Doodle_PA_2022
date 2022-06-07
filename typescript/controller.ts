@@ -1,6 +1,6 @@
 import { ErrorEnum, getError } from './factory/error';
 import { SuccessEnum, getSuccess } from './factory/success';
-import { User, Event, Preference} from './model';
+import { User, Event, Preference } from './model';
 
 let hashDecreaseToken: Map<number, number> = new Map();
 hashDecreaseToken.set(1,1); 
@@ -9,24 +9,24 @@ hashDecreaseToken.set(3,4);
 
 // Funzione che controlla se un utente esiste data la sua email
 export async function checkUserbyEmail(email: string): Promise<boolean>{
-    const result: object= await User.findByPk(email);
+    const result: object = await User.findByPk(email);
     if (result) return true;
     else return false;
 }
 
 // Funzione che controlla che un utente abbia la quantità di token sufficienti a creare l'evento 
 export async function checkBalance(email: string, modality: number): Promise<boolean>{
-    const result: object= await User.findAll({ raw: true, where:{ email: email }});
+    const result: object = await User.findAll({ raw: true, where:{ email: email }});
     if(result[0].token >= hashDecreaseToken.get(modality)) return true;
     return false;
 }
 
-// Funzione che crea l'evento e lo inserisc nel database
+// Funzione che crea l'evento e lo inserisce nel database
 export function createEvent(event: any, res: any): void{
     Event.create(event).then((item) => {
         User.decrement(['token'], {by: hashDecreaseToken.get(event.modality), where: { email: event.owner } });
         const new_res = getSuccess(SuccessEnum.EventCreated).getSuccObj();
-        res.status(new_res.status).json({"Message":new_res.msg,"Item":item});
+        res.status(new_res.status).json({"message":new_res.msg,"item":item});
     }).catch(() => {
         controllerErrors(ErrorEnum.InternalServer, res);
     });

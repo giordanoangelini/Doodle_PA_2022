@@ -13,7 +13,7 @@ export const NONJWT = [
 ];
 
 export const create_event = [
-    RouteMiddleware.checkPayload,
+    RouteMiddleware.checkPayload_CreateEvent,
     RouteMiddleware.checkOwner,
     RouteMiddleware.checkBalance
 ];
@@ -40,4 +40,4 @@ export const show_bookings = [
 export const error_handling =[
     RequestMiddleware.logErrors,
     RequestMiddleware.errorHandler
-] ;
+];

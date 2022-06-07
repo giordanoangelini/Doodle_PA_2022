@@ -44,6 +44,7 @@ var hashDecreaseToken = new Map();
 hashDecreaseToken.set(1, 1);
 hashDecreaseToken.set(2, 2);
 hashDecreaseToken.set(3, 4);
+// Funzione che controlla se un utente esiste data la sua email
 function checkUserbyEmail(email) {
     return __awaiter(this, void 0, void 0, function () {
         var result;
@@ -62,6 +63,7 @@ function checkUserbyEmail(email) {
     });
 }
 exports.checkUserbyEmail = checkUserbyEmail;
+// Funzione che controlla che un utente abbia la quantità di token sufficienti a creare l'evento 
 function checkBalance(email, modality) {
     return __awaiter(this, void 0, void 0, function () {
         var result;
@@ -78,11 +80,12 @@ function checkBalance(email, modality) {
     });
 }
 exports.checkBalance = checkBalance;
+// Funzione che crea l'evento e lo inserisce nel database
 function createEvent(event, res) {
     model_1.Event.create(event).then(function (item) {
         model_1.User.decrement(['token'], { by: hashDecreaseToken.get(event.modality), where: { email: event.owner } });
         var new_res = (0, success_1.getSuccess)(success_1.SuccessEnum.EventCreated).getSuccObj();
-        res.status(new_res.status).json({ "Message": new_res.msg, "Item": item });
+        res.status(new_res.status).json({ "message": new_res.msg, "item": item });
     })["catch"](function () {
         controllerErrors(error_1.ErrorEnum.InternalServer, res);
     });

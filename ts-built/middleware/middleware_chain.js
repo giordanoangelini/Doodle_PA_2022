@@ -13,7 +13,7 @@ exports.NONJWT = [
     RequestMiddleware.checkJSONPayload
 ];
 exports.create_event = [
-    RouteMiddleware.checkPayload,
+    RouteMiddleware.checkPayload_CreateEvent,
     RouteMiddleware.checkOwner,
     RouteMiddleware.checkBalance
 ];
