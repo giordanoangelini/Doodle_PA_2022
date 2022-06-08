@@ -50,9 +50,9 @@ ALTER TABLE preference
   ADD CONSTRAINT event_id FOREIGN KEY (event_id) REFERENCES event (id) ON DELETE CASCADE ON UPDATE CASCADE;
 
 INSERT INTO user (email, name, surname, role, token) VALUES 
-  ('antonio@email.com', 'Antonio', 'Bandello', 0, 0),
-  ('giordano@email.com', 'Giordano', 'Angelini', 1, 10),
-  ('cristian@email.com', 'Cristian', 'Di Silvestre', 1, 10);
+  ('antonio@email.com', 'Antonio', 'Bandello', 'admin', 0),
+  ('giordano@email.com', 'Giordano', 'Angelini', 'user', 10),
+  ('cristian@email.com', 'Cristian', 'Di Silvestre', 'user', 10);
 
 INSERT INTO event (title, owner, modality, datetimes, status, latitude, longitude, link) VALUES
   ('Riunione di Staff', 'giordano@email.com', 1, '["2022-06-01T21:00:00+01:00","2022-06-02T21:00:00+01:00","2022-06-02T22:00:00+01:00"]', 1, NULL, NULL, NULL),

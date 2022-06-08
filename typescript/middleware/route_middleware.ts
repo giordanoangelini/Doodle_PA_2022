@@ -63,19 +63,37 @@ export function checkEventBookings(req: any, res: any, next: any): void {
 
 export function checkLimit(req: any, res: any, next: any): void {
     if(req.body.limit){
-        if(typeof req.body.limit == 'number') next();
+        if(typeof req.body.limit == 'number' && req.body.limit > 0) next();
         else next(ErrorEnum.MalformedPayload);
     } else next();
 }
 
-export function checkAdmin(req: any, res: any, next: any): void {
-    if(req.body.sender_role == 'admin') next();
-    else next(ErrorEnum.Unauthorized);
+export function checkModality(req: any, res: any, next: any): void {
+    Controller.getEventModality(req.body.event_id).then((modality) => {
+        if(!req.body.limit && modality == 1) {
+            req.body.limit = 10;
+            next();
+        } else if(req.body.limit && modality == 1) next();
+        else {
+            req.body.limit = null;
+            next();
+        }
+    })
 }
 
-export function checkUserExistence_REFILL(req: any, res: any, next: any) : void {
-    Controller.checkUserExistence(req.body.email).then((check) => {
-        if(check) next();
+export function checkRefill(req: any, res: any, next: any): void {
+    if (req.body.token <= 0) next(ErrorEnum.MalformedPayload);
+    else next();
+}
+
+export function checkAdmin(req: any, res: any, next: any): void {
+    Controller.checkUserExistence(req.body.sender_id).then((check) => {
+        if(check) {
+            Controller.getRole(req.body.sender_id).then((role: string) => {
+                if(role == 'admin' && req.body.sender_role == 'admin') next()
+                else next(ErrorEnum.Unauthorized);
+            })
+        }
         else next(ErrorEnum.NotFound);
     });
 }

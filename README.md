@@ -38,5 +38,5 @@ curl -X POST -H "Content-Type: application/json" -d '{"event_id":3,"datetimes":[
 
 ### /refill (Autenticazione JWT)
 ~~~
-curl -X POST -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Imdpb3JkYW5vQGVtYWlsLmNvbSIsInRva2VuIjoxMDAsInNlbmRlcl9pZCI6ImFudG9uaW9AZW1haWwuY29tIiwic2VuZGVyX3JvbGUiOiJhZG1pbiJ9.I12gZPLaXvMx-HzIWQIga2tB6BYpTPPr3LcxyhxSlOI" localhost:8080/create-event
+curl -X POST -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvd25lciI6Imdpb3JkYW5vQGVtYWlsLmNvbSIsInRva2VuIjoxMDAsInNlbmRlcl9pZCI6ImFudG9uaW9AZW1haWwuY29tIiwic2VuZGVyX3JvbGUiOiJhZG1pbiJ9.Q_Z-Kya5yO0Qtz8sMvPyKPhoJOUjHpofjZXYwRCgGak" localhost:8080/create-event
 ~~~

@@ -85,29 +85,30 @@ export function closeEvent(event_id: number, res: any): void {
 }
 
 export function showBookings(event_id: number, limit: number, res: any): void {
-    getEventModality(event_id).then((modality: number) => {
-        if(limit && modality == 1){
-            sequelize.query(`SELECT datetime, COUNT(*) as occurrences FROM preference GROUP BY datetime ORDER BY occurrences DESC LIMIT ${limit}`).then((items) => {
-                const new_res = getSuccess(SuccessEnum.ShowBookings).getSuccObj();
-                res.status(new_res.status).json({"message":new_res.msg, "bookings":items[0]});
-            }).catch(() => {
-                controllerErrors(ErrorEnum.InternalServer, res);
-            });
-        } else if (!limit && modality == 1) {
-            controllerErrors(ErrorEnum.BadRequest, res);
-        } else {
-            getEventBookings(event_id).then((items) => {
-                const new_res = getSuccess(SuccessEnum.ShowBookings).getSuccObj();
-                res.status(new_res.status).json({"message":new_res.msg, "bookings":items});
-            }).catch(() => {
-                controllerErrors(ErrorEnum.InternalServer, res);
-            });
-        }
-    });
+    if(limit){
+        sequelize.query(`SELECT datetime, COUNT(*) as occurrences FROM preference WHERE event_id = ${event_id} GROUP BY datetime ORDER BY occurrences DESC LIMIT ${limit}`).then((items) => {
+            const new_res = getSuccess(SuccessEnum.ShowBookings).getSuccObj();
+            res.status(new_res.status).json({"message":new_res.msg, "bookings":items[0]});
+        }).catch(() => {
+            controllerErrors(ErrorEnum.InternalServer, res);
+        });
+    } else {
+        getEventBookings(event_id).then((items) => {
+            const new_res = getSuccess(SuccessEnum.ShowBookings).getSuccObj();
+            res.status(new_res.status).json({"message":new_res.msg, "bookings":items});
+        }).catch(() => {
+            controllerErrors(ErrorEnum.InternalServer, res);
+        });
+    }
+}
+
+export async function getRole(email: string): Promise<string> {
+    const result: any = await User.findByPk(email,{raw: true});
+    return result.role;
 }
 
 export function refill(refill: any, res: any): void {
-    User.update({token: refill.token}, {where: {email: refill.email}}).then(() => {
+    User.update({token: refill.token}, {where: {email: refill.owner}}).then(() => {
         const new_res = getSuccess(SuccessEnum.TokenRefill).getSuccObj();
         res.status(new_res.status).json({"message":new_res.msg});
     }).catch(() => {
