@@ -56,6 +56,15 @@ class TokenRefill implements SuccessObj {
     }
 }
 
+class BookingCompleted implements SuccessObj {
+    getSuccObj(): { status : number,  msg : string } {
+        return {
+            status: 200,
+            msg: "SUCCESS - Booking completed succesfully"
+        }
+    }
+}
+
 export enum SuccessEnum {
     // 200
     ShowEvents,
@@ -64,7 +73,8 @@ export enum SuccessEnum {
     ShowBookings,
     TokenRefill,
     // 201
-    EventCreated
+    EventCreated,
+    BookingCompleted
 }
 
 export function getSuccess(type: SuccessEnum): SuccessObj{
@@ -87,6 +97,9 @@ export function getSuccess(type: SuccessEnum): SuccessObj{
             break;
         case SuccessEnum.TokenRefill:
             retval = new TokenRefill();
+            break;
+        case SuccessEnum.BookingCompleted:
+            retval = new BookingCompleted();
             break;
     }
     return retval;

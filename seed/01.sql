@@ -56,7 +56,7 @@ INSERT INTO user (email, name, surname, role, token) VALUES
 
 INSERT INTO event (title, owner, modality, datetimes, status, latitude, longitude, link) VALUES
   ('Riunione di Staff', 'giordano@email.com', 1, '["2022-06-01T21:00:00+01:00","2022-06-02T21:00:00+01:00","2022-06-02T22:00:00+01:00"]', 1, NULL, NULL, NULL),
-  ('Disponibilità sala studio', 'giordano@email.com', 2, '["2022-06-05+18:00:00+02:00","2022-06-05+19:00:00+01:00","2022-06-06T18:00:00+01:00"]', 1, NULL, NULL, NULL),
+  ('Disponibilità sala studio', 'giordano@email.com', 2, '["2022-06-05T18:00:00+02:00","2022-06-05T19:00:00+01:00","2022-06-06T18:00:00+01:00"]', 1, NULL, NULL, NULL),
   ('Esame di Programmazione Avanzata', 'giordano@email.com', 3, '["2022-06-07T15:00:00+01:00","2022-06-08T15:00:00+01:00","2022-06-02T16:00:00+01:00"]', 1, NULL, NULL, NULL);
 
 INSERT INTO preference (event_id, datetime, email, name, surname) VALUES

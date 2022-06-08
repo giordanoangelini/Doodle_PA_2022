@@ -22,7 +22,7 @@ export function checkToken (req: any, res: any, next: any): void{
         const bearerToken: string = bearerHeader.split(' ')[1];
         req.token = bearerToken;
         next();
-    } else next(ErrorEnum.Forbidden);
+    } else next(ErrorEnum.MissingToken);
 }
 
 // Verifica la chiave segreta del TOKEN
@@ -34,7 +34,7 @@ export function verifyAndAuthenticate (req: any, res: any, next: any): void{
             next();
         }
     } catch (error) { 
-        next(ErrorEnum.Forbidden); 
+        next(ErrorEnum.InvalidToken); 
     }
 }
 
@@ -49,7 +49,7 @@ export function verifyAndAuthenticate (req: any, res: any, next: any): void{
 }
 
 export function notFound(req: any, res: any, next: any) {
-    next(ErrorEnum.NotFound);
+    next(ErrorEnum.RouteNotFound);
 }
 
 // Stampa gli errori sulla console

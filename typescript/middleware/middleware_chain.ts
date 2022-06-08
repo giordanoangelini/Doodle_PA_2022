@@ -42,8 +42,10 @@ export const show_bookings = [
 
 export const book = [
     RouteMiddleware.checkEventExistence,
+    RouteMiddleware.checkEventStatus,
     RouteMiddleware.checkDatetimes,
-    RouteMiddleware.checkBookExistence,
+    RouteMiddleware.checkDatetimesExistence,
+    RouteMiddleware.checkBookingExistence,
     RouteMiddleware.checkBookingSecondModality,
     RouteMiddleware.checkBookingThirdModality
 ];
