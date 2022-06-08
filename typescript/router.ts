@@ -33,7 +33,7 @@ app.get('/show-bookings', Middleware.JWT, Middleware.show_bookings, Middleware.e
 
 // Richiesta che permette di effettuare una prenotazione per un certo evento
 app.post('/book', Middleware.NONJWT, Middleware.book, Middleware.error_handling, function (req: any, res: any) {
-    //Controller.showEvents(req.user.id, res);
+    Controller.book(req.body, res);
 });
 
 // Richiesta che permette ad un utente admin di ricaricare i token di un certo utente (Autenticazione JWT)

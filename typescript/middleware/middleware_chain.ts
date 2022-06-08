@@ -13,9 +13,10 @@ export const NONJWT = [
 ];
 
 export const create_event = [
-    RouteMiddleware.checkPayload,
     RouteMiddleware.checkUserExistence,
-    RouteMiddleware.checkUserBalance
+    RouteMiddleware.checkUserBalance,
+    RouteMiddleware.checkPayload,
+    RouteMiddleware.checkDatetimes
 ];
 
 export const show_events = [
@@ -40,12 +41,17 @@ export const show_bookings = [
 ];
 
 export const book = [
+    RouteMiddleware.checkEventExistence,
+    RouteMiddleware.checkDatetimes,
+    RouteMiddleware.checkBookExistence,
+    RouteMiddleware.checkBookingSecondModality,
+    RouteMiddleware.checkBookingThirdModality
 ];
 
 export const refill = [
     RouteMiddleware.checkAdmin,
-    RouteMiddleware.checkRefill,
-    RouteMiddleware.checkUserExistence
+    RouteMiddleware.checkUserExistence,
+    RouteMiddleware.checkRefill
 ];
 
 export const any_other = [

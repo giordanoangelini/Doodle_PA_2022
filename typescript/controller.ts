@@ -12,14 +12,24 @@ hashDecreaseToken.set(2,2);
 hashDecreaseToken.set(3,4); 
 
 // Funzione che controlla se un utente esiste data la sua email
-export async function checkUserExistence(email: string): Promise<boolean>{
-    const result: any = await User.findByPk(email);
+export async function checkUserExistence(email: string, res: any): Promise<boolean>{
+    let result: any;
+    try{
+        result= await User.findByPk(email);
+    }catch(error){
+        controllerErrors(ErrorEnum.InternalServer, res);
+    }
     return result;
 }
 
 // Funzione che controlla che un utente abbia la quantità di token sufficienti a creare l'evento 
-export async function checkBalance(email: string, modality: number): Promise<boolean>{
-    const result: any = await User.findByPk(email,{raw: true});
+export async function checkBalance(email: string, modality: number, res: any): Promise<boolean>{
+    let result: any;
+    try{
+    result = await User.findByPk(email,{raw: true});
+    }catch(error){
+        controllerErrors(ErrorEnum.InternalServer, res);
+    }
     if(result.token >= hashDecreaseToken.get(modality)) return true;
     return false;
 }
@@ -46,23 +56,43 @@ export function showEvents(email: string, res: any): void{
     });
 }
 
-export async function checkEventOwner(event_id: number, owner: string): Promise<boolean> {
-    const result: any = await Event.findByPk(event_id,{raw:true});
+export async function checkEventOwner(event_id: number, owner: string, res: any): Promise<boolean> {
+    let result: any;
+    try{
+        result= await Event.findByPk(event_id,{raw:true});
+    }catch(error){
+        controllerErrors(ErrorEnum.InternalServer, res);
+    }
     return result.owner == owner;
 }
 
-export async function checkEventExistence(event_id: number): Promise<boolean> {
-    const result: any = await Event.findByPk(event_id);
+export async function checkEventExistence(event_id: number, res: any): Promise<boolean> {
+    let result: any;
+    try{
+    result = await Event.findByPk(event_id);
+    }catch(error){
+        controllerErrors(ErrorEnum.InternalServer, res);
+    }
     return result;
 }
 
-export async function getEventModality(event_id: number): Promise<number> {
-    const result: any = await Event.findByPk(event_id);
+export async function getEventModality(event_id: number, res: any): Promise<number> {
+    let result: any;
+    try{
+    result = await Event.findByPk(event_id, {raw: true});
+    }catch(error){
+        controllerErrors(ErrorEnum.InternalServer, res);
+    }
     return result.modality;
 }
 
-export async function getEventBookings(event_id: number): Promise<object> {
-    const result: any = await Preference.findAll({raw: true, where: { event_id: event_id}});
+export async function getEventBookings(event_id: number, res: any): Promise<object> {
+    let result: any;
+    try{
+    result = await Preference.findAll({raw: true, where: { event_id: event_id}});
+    }catch(error){
+        controllerErrors(ErrorEnum.InternalServer, res);
+    }
     return result;
 }
 
@@ -93,7 +123,7 @@ export function showBookings(event_id: number, limit: number, res: any): void {
             controllerErrors(ErrorEnum.InternalServer, res);
         });
     } else {
-        getEventBookings(event_id).then((items) => {
+        getEventBookings(event_id, res).then((items) => {
             const new_res = getSuccess(SuccessEnum.ShowBookings).getSuccObj();
             res.status(new_res.status).json({"message":new_res.msg, "bookings":items});
         }).catch(() => {
@@ -102,8 +132,13 @@ export function showBookings(event_id: number, limit: number, res: any): void {
     }
 }
 
-export async function getRole(email: string): Promise<string> {
-    const result: any = await User.findByPk(email,{raw: true});
+export async function getRole(email: string, res: any): Promise<string> {
+    let result: any;
+    try{
+    result = await User.findByPk(email,{raw: true});
+    }catch(error){
+        controllerErrors(ErrorEnum.InternalServer, res);
+    }
     return result.role;
 }
 
@@ -114,6 +149,39 @@ export function refill(refill: any, res: any): void {
     }).catch(() => {
         controllerErrors(ErrorEnum.InternalServer, res);
     });
+}
+
+export async function checkBookExistence(event_id: number, datetime: string, email: string, res: any): Promise<boolean> {
+    let result: any;
+    try{
+    result = await Preference.findAll(
+        {where: {
+            event_id: event_id,
+            datetime: datetime,
+            email: email,
+        }});
+    }catch(error){
+        controllerErrors(ErrorEnum.InternalServer, res);
+    }
+    return (result.length != 0);
+}
+
+export function book(req: any, res: any) : void {
+    let response: object[];
+    req.datetimes.forEach((elem: any) => {
+        Preference.create({
+            event_id: req.event_id,
+            datetime: elem,
+            email: req.email,
+            name: req.name,
+            surname: req.surname
+        }).then((result: any) => {
+            response.push(result);
+        }).catch(() => {
+            controllerErrors(ErrorEnum.InternalServer, res);
+        });
+    });
+    console.log(response);
 }
 
 function controllerErrors(err: ErrorEnum, res: any) {
