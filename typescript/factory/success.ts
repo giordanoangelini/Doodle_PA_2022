@@ -1,3 +1,5 @@
+import * as Message from "./string_messages";
+
 interface  SuccessObj {
     getSuccObj(): { status : number,  msg : string };
 }
@@ -6,7 +8,7 @@ class EventCreated implements SuccessObj {
     getSuccObj(): { status : number,  msg : string } {
         return {
             status: 201,
-            msg: "SUCCESS - Event created succesfully"
+            msg: Message.eventCreated_message
         }
     }
 }
@@ -15,7 +17,7 @@ class ShowEvents implements SuccessObj {
     getSuccObj(): { status : number,  msg : string } {
         return {
             status: 200,
-            msg: "SUCCESS - Events displayed succesfully"
+            msg: Message.showEvents_message
         }
     }
 }
@@ -24,7 +26,7 @@ class EventDeleted implements SuccessObj {
     getSuccObj(): { status : number,  msg : string } {
         return {
             status: 200,
-            msg: "SUCCESS - Event deleted succesfully"
+            msg: Message.eventDeleted_message
         }
     }
 }
@@ -33,7 +35,7 @@ class EventClosed implements SuccessObj {
     getSuccObj(): { status : number,  msg : string } {
         return {
             status: 200,
-            msg: "SUCCESS - Event bookings closed succesfully"
+            msg: Message.successEventClosed_message
         }
     }
 }
@@ -42,7 +44,7 @@ class ShowBookings implements SuccessObj {
     getSuccObj(): { status : number,  msg : string } {
         return {
             status: 200,
-            msg: "SUCCESS - Event bookings displayed succesfully"
+            msg: Message.showBookings_message
         }
     }
 }
@@ -51,7 +53,7 @@ class TokenRefill implements SuccessObj {
     getSuccObj(): { status : number,  msg : string } {
         return {
             status: 200,
-            msg: "SUCCESS - Tokens refilled succesfully"
+            msg: Message.tokenRefill_message
         }
     }
 }
@@ -60,7 +62,7 @@ class BookingCompleted implements SuccessObj {
     getSuccObj(): { status : number,  msg : string } {
         return {
             status: 200,
-            msg: "SUCCESS - Booking completed succesfully"
+            msg: Message.bookingCompleted_message
         }
     }
 }

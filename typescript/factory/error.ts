@@ -1,3 +1,5 @@
+import * as Message from "./string_messages";
+
 interface  ErrorObj {
     getErrorObj(): { status: number,  msg: string };
 }
@@ -6,7 +8,7 @@ class NoAuthHeaderError implements ErrorObj {
     getErrorObj(): { status: number,  msg: string } {
         return {
             status: 400,
-            msg: "Bad Request - No authorization header"
+            msg: Message.noAuthHeader_message
         }
     }
 }
@@ -15,7 +17,7 @@ class NoPayloadHeaderError implements ErrorObj {
     getErrorObj(): { status: number,  msg: string } {
         return {
             status: 400,
-            msg: "Bad Request - No JSON payload header"
+            msg: Message.noPayoadHeader_message
         }
     }
 }
@@ -24,7 +26,7 @@ class MissingToken implements ErrorObj {
     getErrorObj(): { status: number,  msg: string } {
         return {
             status: 400,
-            msg: "Bad Request - Missing JWT Token"
+            msg: Message.missingToken_message
         }
     }
 }
@@ -33,7 +35,7 @@ class InvalidToken implements ErrorObj {
     getErrorObj(): { status: number,  msg: string } {
         return {
             status: 403,
-            msg: "Forbidden - Invalid JWT Token"
+            msg: Message.invalidToken_message
         }
     }
 }
@@ -42,7 +44,7 @@ class MalformedPayloadError implements ErrorObj {
     getErrorObj(): { status: number,  msg: string } {
         return {
             status: 400,
-            msg: "Bad Request - Malformed payload"
+            msg: Message.malformedPayload_message
         }
     }
 }
@@ -51,7 +53,7 @@ class RouteNotFound implements ErrorObj {
     getErrorObj(): { status: number,  msg: string } {
         return {
             status: 404,
-            msg: "Not Found - Route not found"
+            msg: Message.routeNotFound_message
         }
     }
 }
@@ -60,7 +62,7 @@ class UnauthorizedError implements ErrorObj {
     getErrorObj(): { status: number,  msg: string } {
         return {
             status: 401,
-            msg: "ERROR - Unauthorized"
+            msg: Message.unauthorized_message
         }
     }
 }
@@ -69,7 +71,7 @@ class ForbiddenError implements ErrorObj {
     getErrorObj(): { status: number,  msg: string } {
         return {
             status: 403,
-            msg: "ERROR - Forbidden"
+            msg: Message.Forbidden_message
         }
     }
 }
@@ -78,7 +80,7 @@ class NotFoundError implements ErrorObj {
     getErrorObj(): { status: number,  msg: string } {
         return {
             status: 404,
-            msg: "ERROR - Not found"
+            msg: Message.notFound_message
         }
     }
 }
@@ -87,7 +89,7 @@ class InternalServerError implements ErrorObj {
     getErrorObj(): { status: number,  msg: string } {
         return {
             status: 500,
-            msg: "ERROR - Internal server error"
+            msg: Message.internalServerError_message
         }
     }
 }
@@ -96,7 +98,7 @@ class ServiceUnavailableError implements ErrorObj {
     getErrorObj(): { status: number,  msg: string } {
         return {
             status: 503,
-            msg: "ERROR - Service unavailable"
+            msg: Message.serviceUnavailable_message
         }
     }
 }
@@ -105,7 +107,7 @@ class BadRequest implements ErrorObj {
     getErrorObj(): { status: number,  msg: string } {
         return {
             status: 400,
-            msg: "ERROR - Bad request"
+            msg: Message.badRequest_message
         }
     }
 }
@@ -114,7 +116,7 @@ class EventClosed implements ErrorObj {
     getErrorObj(): { status: number,  msg: string } {
         return {
             status: 403,
-            msg: "Forbidden - Event bookings are closed"
+            msg: Message.errorEventClosed_message
         }
     }
 }
@@ -123,7 +125,7 @@ class DuplicateDatetimes implements ErrorObj {
     getErrorObj(): { status: number,  msg: string } {
         return {
             status: 400,
-            msg: "Bad Request - Duplicate datetimes"
+            msg: Message.duplicateDatetimes_message
         }
     }
 }
@@ -132,7 +134,7 @@ class UserNotFound implements ErrorObj {
     getErrorObj(): { status: number,  msg: string } {
         return {
             status: 404,
-            msg: "Not Found - User not found"
+            msg: Message.userNotFound_message
         }
     }
 }
@@ -141,7 +143,7 @@ class EventNotFound implements ErrorObj {
     getErrorObj(): { status: number,  msg: string } {
         return {
             status: 404,
-            msg: "Not Found - Event not found"
+            msg: Message.eventNotFound_message
         }
     }
 }
@@ -150,7 +152,7 @@ class InsufficientBalance implements ErrorObj {
     getErrorObj(): { status: number,  msg: string } {
         return {
             status: 401,
-            msg: "Unauthorized - Insufficient token balance"
+            msg: Message.insufficientBalance_message
         }
     }
 }
@@ -159,7 +161,7 @@ class UnplannedDatetimes implements ErrorObj {
     getErrorObj(): { status: number,  msg: string } {
         return {
             status: 400,
-            msg: "Bad Request - Specified unplanned datetimes"
+            msg: Message.unplannedDatetimes_message
         }
     }
 }
@@ -168,7 +170,7 @@ class BookedEvent implements ErrorObj {
     getErrorObj(): { status: number,  msg: string } {
         return {
             status: 403,
-            msg: "Forbidden - Couldn't delete an already booked event"
+            msg: Message.bookedEvent_message
         }
     }
 }
@@ -177,7 +179,7 @@ class AlreadyBookedDatetime implements ErrorObj {
     getErrorObj(): { status: number,  msg: string } {
         return {
             status: 403,
-            msg: "Forbidden - Datetime already booked"
+            msg: Message.alreadyBookedDatetime_message
         }
     }
 }
@@ -186,7 +188,7 @@ class AlreadyBookedEvent implements ErrorObj {
     getErrorObj(): { status: number,  msg: string } {
         return {
             status: 403,
-            msg: "Forbidden - You already booked this event"
+            msg: Message.alreadyBookedEvent_message
         }
     }
 }
