@@ -1,0 +1,266 @@
+{
+	"info": {
+		"_postman_id": "897b100f-c969-42a1-85fa-51c0d16e1ca1",
+		"name": "ProgettoPA",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create-event",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aXRsZSI6IlJpdW5pb25lIGRpIFJlcGFydG8iLCJvd25lciI6Imdpb3JkYW5vQGVtYWlsLmNvbSIsImRhdGV0aW1lcyI6WyIyMDIyLTA2LTA3VDE1OjAwOjAwKzAxOjAwIiwiMjAyMi0wNi0wOFQxNTowMDowMCswMTowMCIsIjIwMjItMDYtMDlUMTU6MDA6MDArMDE6MDAiXSwibW9kYWxpdHkiOjEsImxhdGl0dWRlIjpudWxsLCJsb25naXR1ZGUiOm51bGwsImxpbmsiOm51bGwsInNlbmRlcl9yb2xlIjoidXNlciIsInNlbmRlcl9pZCI6Imdpb3JkYW5vQGVtYWlsLmNvbSJ9.l_1tidIcre1KF040S043lELuPg6uxWpNMizX5MabHPQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/create-event",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"create-event"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "show-events",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvd25lciI6Imdpb3JkYW5vQGVtYWlsLmNvbSIsInNlbmRlcl9yb2xlIjoidXNlciIsInNlbmRlcl9pZCI6Imdpb3JkYW5vQGVtYWlsLmNvbSJ9.w743SdlDmolMdLOX-SL6gc9NuyL4UI7APOMcja6jCvw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/show-events",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"show-events"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete-event",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJldmVudF9pZCI6MSwic2VuZGVyX3JvbGUiOiJ1c2VyIiwic2VuZGVyX2lkIjoiZ2lvcmRhbm9AZW1haWwuY29tIn0.mjWvUur2jQGwaaOnjRmI0IvosmJhLuhp9UwSEbLAodk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/delete-event",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"delete-event"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "close-event",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJldmVudF9pZCI6MSwic2VuZGVyX3JvbGUiOiJ1c2VyIiwic2VuZGVyX2lkIjoiZ2lvcmRhbm9AZW1haWwuY29tIn0.mjWvUur2jQGwaaOnjRmI0IvosmJhLuhp9UwSEbLAodk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/close-event",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"close-event"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "show-bookings",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJldmVudF9pZCI6MSwibGltaXQiOjMsInNlbmRlcl9yb2xlIjoidXNlciIsInNlbmRlcl9pZCI6Imdpb3JkYW5vQGVtYWlsLmNvbSJ9.lCDcVYBMtYHk4iQ4BcA1Ro4wUPARAdJRM9KukcybJxE",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/show-bookings",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"show-bookings"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "refill",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvd25lciI6Imdpb3JkYW5vQGVtYWlsLmNvbSIsInRva2VuIjoxNSwic2VuZGVyX2lkIjoiYW50b25pb0BlbWFpbC5jb20iLCJzZW5kZXJfcm9sZSI6ImFkbWluIn0.JnIYx1dAApd1XGjOOj3dtokwWjBIMMMIjGtJuaupKS4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/refill",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"refill"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/book1",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"event_id\": 1,\"datetimes\": [\"2022-06-01T21:00:00+01:00\",\"2022-06-02T21:00:00+01:00\"],\"email\":\"pippo@email.com\",\"name\": \"Pippo\",\"surname\": \"Rossi\"}"
+				},
+				"url": {
+					"raw": "localhost:8080/book",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"book"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/book2",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"event_id\": 2,\"datetimes\": [\"2022-06-15T09:00:00+01:00\",\"2022-06-15T10:00:00+01:00\"],\"email\":\"pippo@email.com\",\"name\": \"Pippo\",\"surname\": \"Rossi\"}"
+				},
+				"url": {
+					"raw": "localhost:8080/book",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"book"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/book3",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"event_id\": 3,\"datetimes\": [\"2022-06-15T10:30:00+01:00\"],\"email\":\"pippo@email.com\",\"name\": \"Pippo\",\"surname\": \"Rossi\"}"
+				},
+				"url": {
+					"raw": "localhost:8080/book",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"book"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

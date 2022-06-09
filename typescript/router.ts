@@ -1,7 +1,6 @@
 import * as express from 'express';
 import * as Controller from './controller';
 import * as Middleware from './middleware/middleware_chain'
-import { getError, ErrorEnum } from './factory/error';
 
 const app = express();
 app.use(express.json());
@@ -33,6 +32,8 @@ app.get('/show-bookings', Middleware.JWT, Middleware.show_bookings, Middleware.e
 
 // Richiesta che permette di effettuare una prenotazione per un certo evento
 app.post('/book', Middleware.NONJWT, Middleware.book, Middleware.error_handling, function (req: any, res: any) {
+    console.log(10);
+    
     Controller.book(req.body, res);
 });
 

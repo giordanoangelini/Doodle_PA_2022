@@ -14,9 +14,9 @@ export const NONJWT = [
 
 export const create_event = [
     RouteMiddleware.checkUserExistence,
-    RouteMiddleware.checkUserBalance,
     RouteMiddleware.checkPayload,
-    RouteMiddleware.checkDatetimes
+    RouteMiddleware.checkDatetimes,
+    RouteMiddleware.checkUserBalance
 ];
 
 export const show_events = [
@@ -43,6 +43,7 @@ export const show_bookings = [
 export const book = [
     RouteMiddleware.checkEventExistence,
     RouteMiddleware.checkEventStatus,
+    RouteMiddleware.getEventModality,
     RouteMiddleware.checkDatetimes,
     RouteMiddleware.checkDatetimesExistence,
     RouteMiddleware.checkBookingExistence,

@@ -6,9 +6,9 @@ import { any_other, book } from './middleware_chain';
 // Controlla che i valori contenuti nel payload siano compatibili
 export function checkPayload(req: any, res: any, next: any) : void {
     if (typeof req.body.title == 'string' && 
-        typeof req.body.link == 'string' &&
-        [1,2,3].includes(req.body.modality) &&
-        checkCoordinates(req.body.latitude, req.body.longitude)) {
+        (typeof req.body.link == 'string' || (!req.body.link && req.body.link != 0)) &&
+        checkCoordinates(req.body.latitude, req.body.longitude) &&
+        [1,2,3].includes(req.body.modality)) {
         next();
     } else next(ErrorEnum.MalformedPayload);
 }
@@ -80,6 +80,13 @@ export function checkEventStatus(req: any, res: any, next: any): void {
     })
 }
 
+export function getEventModality(req: any, res: any, next: any): void {
+    Controller.getEventModality(req.body.event_id, res).then((modality) => {
+        req.body.modality = modality;
+        next();
+    });
+}
+
 export function checkModality(req: any, res: any, next: any): void {
     Controller.getEventModality(req.body.event_id, res).then((modality) => {
         if(!req.body.limit && modality == 1) {
@@ -94,12 +101,14 @@ export function checkModality(req: any, res: any, next: any): void {
 }
 
 export function checkBookingExistence(req: any, res: any, next: any): void {
-    req.body.datetimes.forEach((elem: string) => {
-        Controller.checkBookingExistence(req.body.event_id, elem, req.body.email, res).then((result: any) =>{
-            if(result) next(ErrorEnum.DuplicateDatetimes);
-            else next();
-        })
-    });
+    Controller.getEventBookings(req.body.event_id, res).then((bookings: any) => {
+        let duplicates: any[] = bookings.filter((elem: any) => 
+            elem.email == req.body.email &&
+            elem.datetime == req.body.datetime &&
+            elem.event_id == req.body.event_id);
+        if(duplicates.length != 0) next(ErrorEnum.DuplicateDatetimes);
+        else next();
+    })
 }
 
 export function checkDatetimesExistence(req: any, res: any, next: any): void {
@@ -111,29 +120,24 @@ export function checkDatetimesExistence(req: any, res: any, next: any): void {
 }
 
 export function checkBookingSecondModality(req: any, res: any, next: any): void {
-    Controller.getEventModality(req.body.event_id, res).then((modality) => {
-        if (modality == 2 || modality == 3) {
-            Controller.getEventBookings(req.body.event_id, res).then((result: any) => {
-                let bookings: string[] = result.map((elem: any) => elem.datetime);
-                req.body.datetimes.forEach((elem: string) => {
-                    if (bookings.includes(elem)) next(ErrorEnum.AlreadyBookedDatetime);
-                    else next();
-                });
-            });
-        } else next();
+    Controller.getEventBookings(req.body.event_id, res).then((result: any) => {     
+        if (req.body.modality == 2 || req.body.modality == 3) {
+            let duplicates: any = result.filter((elem: any) => req.body.datetimes.includes(elem.datetime));
+                if (duplicates.length != 0) next(ErrorEnum.AlreadyBookedDatetime);
+                else next();
+        }
+        else next();              
     });
 }
 
 export function checkBookingThirdModality(req: any, res: any, next: any): void {
-    Controller.getEventModality(req.body.event_id, res).then((modality) => {
-        if(modality == 3) {
-            if (req.body.datetimes.length != 1) next(ErrorEnum.AlreadyBookedEvent);
+    Controller.getEventBookings(req.body.event_id, res).then((result: any) => {
+        if(req.body.modality == 3) {
+            if (req.body.datetimes.length != 1) next(ErrorEnum.OnlyOneBooking);
             else {
-                Controller.getEventBookings(req.body.event_id, res).then((result: any) => {
-                    let bookings: any = result.filter((elem: any) => elem.email == req.body.email);
-                    if(bookings.length != 0) next(ErrorEnum.BadRequest);
-                    else next();
-                });
+                let duplicates: any = result.filter((elem: any) => elem.email == req.body.email);
+                if(duplicates.length != 0) next(ErrorEnum.AlreadyBookedEvent);
+                else next();
             }
         } else next();
     });

@@ -23,12 +23,12 @@ export async function checkUserExistence(email: string, res: any): Promise<boole
 export async function checkBalance(email: string, modality: number, res: any): Promise<boolean>{
     let result: any;
     try{
-    result = await User.findByPk(email,{raw: true});
+        result = await User.findByPk(email,{raw: true});
     }catch(error){
         controllerErrors(ErrorEnum.InternalServer, error, res);
     }
     if(result.token >= hashDecreaseToken.get(modality)) return true;
-    return false;
+    else return false;
 }
 
 // Funzione che crea l'evento e lo inserisce nel database
@@ -36,7 +36,7 @@ export function createEvent(event: any, res: any): void{
     Event.create(event).then((item) => {
         User.decrement(['token'], {by: hashDecreaseToken.get(event.modality), where: { email: event.owner } });
         const new_res = getSuccess(SuccessEnum.EventCreated).getSuccObj();
-        return res.status(new_res.status).json({"message":new_res.msg,"event":item});
+        res.status(new_res.status).json({message:new_res.msg,event:item});
     }).catch((error) => {
         controllerErrors(ErrorEnum.InternalServer, error, res);
     });
@@ -47,7 +47,7 @@ export function showEvents(email: string, res: any): void{
         const active: object[] = items.filter((element: any) => element.status == 1);
         const inactive: object[] = items.filter((element: any) => element.status == 0);
         const new_res = getSuccess(SuccessEnum.ShowEvents).getSuccObj();
-        return res.status(new_res.status).json({"message":new_res.msg,"active_events":active,"inactive_events":inactive});
+        res.status(new_res.status).json({message:new_res.msg,active_events:active,inactive_events:inactive});
     }).catch((error) => {
         controllerErrors(ErrorEnum.InternalServer, error, res);
     });
@@ -116,7 +116,7 @@ export async function getEventBookings(event_id: number, res: any): Promise<obje
 export function deleteEvent(event_id: number, res: any): void {
     Event.destroy({where: {id: event_id}}).then(() => {
         const new_res = getSuccess(SuccessEnum.EventDeleted).getSuccObj();
-        return res.status(new_res.status).json({"message":new_res.msg});
+        res.status(new_res.status).json({message:new_res.msg});
     }).catch((error) => {
         controllerErrors(ErrorEnum.InternalServer, error, res);
     });
@@ -125,7 +125,7 @@ export function deleteEvent(event_id: number, res: any): void {
 export function closeEvent(event_id: number, res: any): void {
     Event.update({status: 0}, {where: {id: event_id}}).then(() => {
         const new_res = getSuccess(SuccessEnum.EventClosed).getSuccObj();
-        return res.status(new_res.status).json({"message":new_res.msg});
+        res.status(new_res.status).json({message:new_res.msg});
     }).catch((error) => {
         controllerErrors(ErrorEnum.InternalServer, error, res);
     });
@@ -137,13 +137,13 @@ export function showBookings(event_id: number, limit: number, res: any): void {
             if(result.error_flag) controllerErrors(ErrorEnum.InternalServer, result.result_body, res);
             else {
                 const new_res = getSuccess(SuccessEnum.ShowBookings).getSuccObj();
-                return res.status(new_res.status).json({"message":new_res.msg, "bookings":result.result_body[0]});
+                res.status(new_res.status).json({message:new_res.msg, bookings:result.result_body[0]});
             }
         });
         } else {
         getEventBookings(event_id, res).then((items) => {
             const new_res = getSuccess(SuccessEnum.ShowBookings).getSuccObj();
-            return res.status(new_res.status).json({"message":new_res.msg, "bookings":items});
+            res.status(new_res.status).json({message:new_res.msg, bookings:items});
         }).catch((error) => {
             controllerErrors(ErrorEnum.InternalServer, error, res);
         });
@@ -163,7 +163,7 @@ export async function getRole(email: string, res: any): Promise<string> {
 export function refill(refill: any, res: any): void {
     User.update({token: refill.token}, {where: {email: refill.owner}}).then(() => {
         const new_res = getSuccess(SuccessEnum.TokenRefill).getSuccObj();
-        return res.status(new_res.status).json({"message":new_res.msg});
+        res.status(new_res.status).json({message:new_res.msg});
     }).catch((error) => {
         controllerErrors(ErrorEnum.InternalServer, error, res);
     });
@@ -184,26 +184,27 @@ export async function checkBookingExistence(event_id: number, datetime: string, 
     return (result.length != 0);
 }
 
-export function book(req: any, res: any) : Promise<void> {
-    let created: any[] = [];
-    for(const element of req.datetimes) {
+export function book(preference: any, res: any) : void {
+    console.log(11);
+    
+    for(const element of preference.datetimes) {
         Preference.create({
-            event_id: req.event_id,
+            event_id: preference.event_id,
             datetime: element,
-            email: req.email,
-            name: req.name,
-            surname: req.surname
+            email: preference.email,
+            name: preference.name,
+            surname: preference.surname
         }).catch((error) => {
             controllerErrors(ErrorEnum.InternalServer, error, res);
         });  
     }
     const new_res = getSuccess(SuccessEnum.BookingCompleted).getSuccObj();
-    return res.status(new_res.status).json({"message":new_res.msg});
+    res.status(new_res.status).json({message:new_res.msg});
 }
 
 function controllerErrors(enum_error: ErrorEnum, err: Error, res: any) {
     const new_err = getError(enum_error).getErrorObj();
     console.log(err);
-    return res.status(new_err.status).json(new_err.msg);
+    res.status(new_err.status).json(new_err.msg);
 }
     

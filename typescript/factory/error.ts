@@ -193,6 +193,15 @@ class AlreadyBookedEvent implements ErrorObj {
     }
 }
 
+class OnlyOneBooking implements ErrorObj {
+    getErrorObj(): { status: number,  msg: string } {
+        return {
+            status: 400,
+            msg: Message.onlyOneBooking_message
+        }
+    }
+}
+
 export enum ErrorEnum {
     MissingToken,//
     InvalidToken,//
@@ -207,7 +216,8 @@ export enum ErrorEnum {
     UnplannedDatetimes,//
     BookedEvent,//
     AlreadyBookedDatetime,//
-    AlreadyBookedEvent,
+    AlreadyBookedEvent,//
+    OnlyOneBooking,//
     BadRequest,
     EventClosed,//
     Unauthorized,//
@@ -220,6 +230,9 @@ export enum ErrorEnum {
 export function getError(type: ErrorEnum): ErrorObj{
     let retval: ErrorObj = null;
     switch (type){
+        case ErrorEnum.OnlyOneBooking:
+            retval = new OnlyOneBooking();
+            break;
         case ErrorEnum.AlreadyBookedEvent:
             retval = new AlreadyBookedEvent();
             break;
