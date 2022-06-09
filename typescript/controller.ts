@@ -1,10 +1,7 @@
-import { Sequelize } from 'sequelize';
 import { ErrorEnum, getError } from './factory/error';
 import { SuccessEnum, getSuccess } from './factory/success';
-import { User, Event, Preference } from './model';
-import { SequelizeSingleton } from './singleton/sequelize';
-
-const sequelize: Sequelize = SequelizeSingleton.getConnection();
+import { User, Event, Preference } from './model/model';
+import { countOccurences } from './model/raw_queries';
 
 let hashDecreaseToken: Map<number, number> = new Map();
 hashDecreaseToken.set(1,1); 
@@ -136,13 +133,14 @@ export function closeEvent(event_id: number, res: any): void {
 
 export function showBookings(event_id: number, limit: number, res: any): void {
     if(limit){
-        sequelize.query(`SELECT datetime, COUNT(*) as occurrences FROM preference WHERE event_id = ${event_id} GROUP BY datetime ORDER BY occurrences DESC LIMIT ${limit}`).then((items) => {
-            const new_res = getSuccess(SuccessEnum.ShowBookings).getSuccObj();
-            return res.status(new_res.status).json({"message":new_res.msg, "bookings":items[0]});
-        }).catch((error) => {
-            controllerErrors(ErrorEnum.InternalServer, error, res);
+        countOccurences(event_id, limit).then((result: any) => {
+            if(result.error_flag) controllerErrors(ErrorEnum.InternalServer, result.result_body, res);
+            else {
+                const new_res = getSuccess(SuccessEnum.ShowBookings).getSuccObj();
+                return res.status(new_res.status).json({"message":new_res.msg, "bookings":result.result_body[0]});
+            }
         });
-    } else {
+        } else {
         getEventBookings(event_id, res).then((items) => {
             const new_res = getSuccess(SuccessEnum.ShowBookings).getSuccObj();
             return res.status(new_res.status).json({"message":new_res.msg, "bookings":items});
@@ -186,23 +184,21 @@ export async function checkBookingExistence(event_id: number, datetime: string, 
     return (result.length != 0);
 }
 
-export async function book(req: any, res: any) : Promise<void> {
+export function book(req: any, res: any) : Promise<void> {
     let created: any[] = [];
     for(const element of req.datetimes) {
-        await Preference.create({
+        Preference.create({
             event_id: req.event_id,
             datetime: element,
             email: req.email,
             name: req.name,
             surname: req.surname
-        }).then((result: any) => {
-            created.push({event_id: req.event_id, datetime: result.datetime});
         }).catch((error) => {
             controllerErrors(ErrorEnum.InternalServer, error, res);
         });  
     }
     const new_res = getSuccess(SuccessEnum.BookingCompleted).getSuccObj();
-    return res.status(new_res.status).json({"message":new_res.msg,"booking":created});
+    return res.status(new_res.status).json({"message":new_res.msg});
 }
 
 function controllerErrors(enum_error: ErrorEnum, err: Error, res: any) {

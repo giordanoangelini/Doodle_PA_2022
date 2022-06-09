@@ -32,8 +32,8 @@ class MissingToken implements ErrorObj {
 class InvalidToken implements ErrorObj {
     getErrorObj(): { status: number,  msg: string } {
         return {
-            status: 400,
-            msg: "Bad Request - Invalid JWT Token"
+            status: 403,
+            msg: "Forbidden - Invalid JWT Token"
         }
     }
 }
@@ -113,8 +113,8 @@ class BadRequest implements ErrorObj {
 class EventClosed implements ErrorObj {
     getErrorObj(): { status: number,  msg: string } {
         return {
-            status: 400,
-            msg: "ERROR - Event bookings are closed"
+            status: 403,
+            msg: "Forbidden - Event bookings are closed"
         }
     }
 }
@@ -168,7 +168,7 @@ class BookedEvent implements ErrorObj {
     getErrorObj(): { status: number,  msg: string } {
         return {
             status: 403,
-            msg: "Bad Request - Couldn't delete an already booked event"
+            msg: "Forbidden - Couldn't delete an already booked event"
         }
     }
 }
@@ -209,15 +209,18 @@ export enum ErrorEnum {
     BadRequest,
     EventClosed,//
     Unauthorized,//
-    Forbidden,
+    Forbidden,//
     NotFound,
-    InternalServer,
+    InternalServer,//
     ServiceUnavailable
 }
 
 export function getError(type: ErrorEnum): ErrorObj{
     let retval: ErrorObj = null;
     switch (type){
+        case ErrorEnum.AlreadyBookedEvent:
+            retval = new AlreadyBookedEvent();
+            break;
         case ErrorEnum.AlreadyBookedDatetime:
             retval = new AlreadyBookedDatetime();
             break;

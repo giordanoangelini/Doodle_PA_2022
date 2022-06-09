@@ -67,7 +67,7 @@ export function checkEventBookings(req: any, res: any, next: any): void {
 }
 
 export function checkLimit(req: any, res: any, next: any): void {
-    if(req.body.limit){
+    if(req.body.limit || req.body.limit == 0){
         if(typeof req.body.limit == 'number' && req.body.limit > 0) next();
         else next(ErrorEnum.MalformedPayload);
     } else next();

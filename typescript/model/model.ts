@@ -1,4 +1,4 @@
-import { SequelizeSingleton } from "./singleton/sequelize";
+import { SequelizeSingleton } from "../singleton/sequelize";
 import { DataTypes, Sequelize } from 'sequelize';
 
 const sequelize: Sequelize = SequelizeSingleton.getConnection();
