@@ -1,0 +1,1399 @@
+{
+	"info": {
+		"_postman_id": "897b100f-c969-42a1-85fa-51c0d16e1ca1",
+		"name": "ProgettoPA",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "create-event",
+			"item": [
+				{
+					"name": "create-event_201",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Richiesta corretta",
+									"",
+									"pm.test(\"Create Event 201\", function () {",
+									"    pm.response.to.have.status(201);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aXRsZSI6IlJpdW5pb25lIGRpIFJlcGFydG8iLCJvd25lciI6Imdpb3JkYW5vQGVtYWlsLmNvbSIsImRhdGV0aW1lcyI6WyIyMDIyLTA2LTExVDE1OjAwOjAwKzAxOjAwIiwiMjAyMi0wNi0xOFQxNTowMDowMCswMTowMCIsIjIwMjItMDYtMjVUMTU6MDA6MDArMDE6MDAiXSwibW9kYWxpdHkiOjEsImxhdGl0dWRlIjpudWxsLCJsb25naXR1ZGUiOm51bGwsImxpbmsiOm51bGwsInNlbmRlcl9yb2xlIjoidXNlciIsInNlbmRlcl9pZCI6Imdpb3JkYW5vQGVtYWlsLmNvbSJ9.i6imAieCBdmdsUkcz_Z18p_NbQzsnnvnU1Mt_9ncJKs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/create-event",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"create-event"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create-event_400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Datetime errati",
+									"",
+									"pm.test(\"Create Event 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aXRsZSI6IlJpdW5pb25lIGRpIFJlcGFydG8iLCJvd25lciI6Imdpb3JkYW5vQGVtYWlsLmNvbSIsImRhdGV0aW1lcyI6WyIyMDIyLTA2LTExVDE1OjAwOjAiLCIyMDIyLTA2LTE4VDE1OjAwOjAwKzAxOjAwIiwiMjAyMi0wNi0yNVQxNTowMDowMCswMTowMCJdLCJtb2RhbGl0eSI6MSwibGF0aXR1ZGUiOm51bGwsImxvbmdpdHVkZSI6bnVsbCwibGluayI6bnVsbCwic2VuZGVyX3JvbGUiOiJ1c2VyIiwic2VuZGVyX2lkIjoiZ2lvcmRhbm9AZW1haWwuY29tIn0.NT2aPwp7VF6mjB9uLV4VGMniXb9mDM81XqUjn4OXuB4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/create-event",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"create-event"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create-event_401",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Token insufficienti",
+									"",
+									"pm.test(\"Create Event 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aXRsZSI6IlJpdW5pb25lIGRpIFJlcGFydG8iLCJvd25lciI6ImNyaXN0aWFuQGVtYWlsLmNvbSIsImRhdGV0aW1lcyI6WyIyMDIyLTA2LTExVDE1OjAwOjAwKzAxOjAwIiwiMjAyMi0wNi0xOFQxNTowMDowMCswMTowMCIsIjIwMjItMDYtMjVUMTU6MDA6MDArMDE6MDAiXSwibW9kYWxpdHkiOjMsImxhdGl0dWRlIjpudWxsLCJsb25naXR1ZGUiOm51bGwsImxpbmsiOm51bGwsInNlbmRlcl9yb2xlIjoidXNlciIsInNlbmRlcl9pZCI6Imdpb3JkYW5vQGVtYWlsLmNvbSJ9.KR6yE8Apw9FHxVaOpTnzdmpbGFbwxM5-P74cVYThaD4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/create-event",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"create-event"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create-event_404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Owner non esistente",
+									"",
+									"pm.test(\"Create Event 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aXRsZSI6IlJpdW5pb25lIGRpIFJlcGFydG8iLCJvd25lciI6ImFueV9lbWFpbCIsImRhdGV0aW1lcyI6WyIyMDIyLTA2LTExVDE1OjAwOjAwKzAxOjAwIiwiMjAyMi0wNi0xOFQxNTowMDowMCswMTowMCIsIjIwMjItMDYtMjVUMTU6MDA6MDArMDE6MDAiXSwibW9kYWxpdHkiOjEsImxhdGl0dWRlIjpudWxsLCJsb25naXR1ZGUiOm51bGwsImxpbmsiOm51bGwsInNlbmRlcl9yb2xlIjoidXNlciIsInNlbmRlcl9pZCI6Imdpb3JkYW5vQGVtYWlsLmNvbSJ9.SIuXlDfofdobLQ0TzXzpv3z84wgyt1Yta1-nzbSvQW8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/create-event",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"create-event"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "show-events",
+			"item": [
+				{
+					"name": "show-events_200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Richiesta corretta",
+									"",
+									"pm.test(\"Show Events 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvd25lciI6Imdpb3JkYW5vQGVtYWlsLmNvbSIsInNlbmRlcl9yb2xlIjoidXNlciIsInNlbmRlcl9pZCI6Imdpb3JkYW5vQGVtYWlsLmNvbSJ9.w743SdlDmolMdLOX-SL6gc9NuyL4UI7APOMcja6jCvw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/show-events",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"show-events"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "show-events_404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Owner inesistente",
+									"",
+									"pm.test(\"Show Events 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvd25lciI6ImFueV9lbWFpbCIsInNlbmRlcl9yb2xlIjoidXNlciIsInNlbmRlcl9pZCI6Imdpb3JkYW5vQGVtYWlsLmNvbSJ9.XwPAZT5s7tjZJyQZNsG3kuhEZwBdDJ3vep20McaHM2g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/show-events",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"show-events"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "delete-event",
+			"item": [
+				{
+					"name": "delete-event_200",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Richiesta corretta",
+									"",
+									"pm.test(\"Delete Event 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJldmVudF9pZCI6NCwic2VuZGVyX3JvbGUiOiJ1c2VyIiwic2VuZGVyX2lkIjoiZ2lvcmRhbm9AZW1haWwuY29tIn0.7q7sEtNTGAwrPFbcuwWnLHW34o-OzmDKHZ7fSjt5Iic",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/delete-event",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"delete-event"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-event_401",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Evento di proprietà altrui",
+									"",
+									"pm.test(\"Delete Event 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJldmVudF9pZCI6MSwic2VuZGVyX3JvbGUiOiJ1c2VyIiwic2VuZGVyX2lkIjoiY3Jpc3RpYW5AZW1haWwuY29tIn0.EUAQrMST3TOlCh64Got6-DA_tMLYtxrMEZbb1Zpbdcs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/delete-event",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"delete-event"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-event_403",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Evento già prenotato",
+									"",
+									"pm.test(\"Delete Event 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJldmVudF9pZCI6MSwic2VuZGVyX3JvbGUiOiJ1c2VyIiwic2VuZGVyX2lkIjoiZ2lvcmRhbm9AZW1haWwuY29tIn0.mjWvUur2jQGwaaOnjRmI0IvosmJhLuhp9UwSEbLAodk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/delete-event",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"delete-event"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete-event_404",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Evento inesistente",
+									"",
+									"pm.test(\"Delete Event 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJldmVudF9pZCI6MTAsInNlbmRlcl9yb2xlIjoidXNlciIsInNlbmRlcl9pZCI6Imdpb3JkYW5vQGVtYWlsLmNvbSJ9.Yl_VKAtB_CfIPgc3kLSiv36ITQGXUHOYs7Fs1edO47w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/delete-event",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"delete-event"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "close-event",
+			"item": [
+				{
+					"name": "close-event_200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Richiesta corretta",
+									"",
+									"pm.test(\"Close Event 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJldmVudF9pZCI6NSwic2VuZGVyX3JvbGUiOiJ1c2VyIiwic2VuZGVyX2lkIjoiZ2lvcmRhbm9AZW1haWwuY29tIn0.795DlqAcby_IyW6Zjko0vSrSzjGpzSra9N1jjLBE24Q",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/close-event",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"close-event"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "close-event_401",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Evento di proprietà altrui",
+									"",
+									"pm.test(\"Close Event 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJldmVudF9pZCI6MSwic2VuZGVyX3JvbGUiOiJ1c2VyIiwic2VuZGVyX2lkIjoiY3Jpc3RpYW5AZW1haWwuY29tIn0.EUAQrMST3TOlCh64Got6-DA_tMLYtxrMEZbb1Zpbdcs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/close-event",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"close-event"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "close-event_404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Evento inesistente",
+									"",
+									"pm.test(\"Close Event 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJldmVudF9pZCI6MTAsInNlbmRlcl9yb2xlIjoidXNlciIsInNlbmRlcl9pZCI6Imdpb3JkYW5vQGVtYWlsLmNvbSJ9.Yl_VKAtB_CfIPgc3kLSiv36ITQGXUHOYs7Fs1edO47w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/close-event",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"close-event"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "show-bookings",
+			"item": [
+				{
+					"name": "show-bookings_200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Richiesta corretta",
+									"",
+									"pm.test(\"Show Bookings 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJldmVudF9pZCI6MSwibGltaXQiOjMsInNlbmRlcl9yb2xlIjoidXNlciIsInNlbmRlcl9pZCI6Imdpb3JkYW5vQGVtYWlsLmNvbSJ9.lCDcVYBMtYHk4iQ4BcA1Ro4wUPARAdJRM9KukcybJxE",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/show-bookings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"show-bookings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "show-bookings_400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Limite mal formato",
+									"",
+									"pm.test(\"Show Bookings 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJldmVudF9pZCI6MSwibGltaXQiOiJOQU4iLCJzZW5kZXJfcm9sZSI6InVzZXIiLCJzZW5kZXJfaWQiOiJnaW9yZGFub0BlbWFpbC5jb20ifQ.XZaC_JTGYBsxXyDCYN2KdhlkxAkMJ0NqFxarYJqYWRw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/show-bookings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"show-bookings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "show-bookings_404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Evento inesistente",
+									"",
+									"pm.test(\"Show Bookings 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJldmVudF9pZCI6MTAsImxpbWl0IjozLCJzZW5kZXJfcm9sZSI6InVzZXIiLCJzZW5kZXJfaWQiOiJnaW9yZGFub0BlbWFpbC5jb20ifQ.VfIz1TjI1YUrhObIkH86q8UvJHN5Q9G2f0upeNfjXBs",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/show-bookings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"show-bookings"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "book",
+			"item": [
+				{
+					"name": "book1_200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Richiesta corretta",
+									"",
+									"pm.test(\"Book1 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"event_id\": 1,\"datetimes\": [\"2022-06-01T21:00:00+01:00\",\"2022-06-02T21:00:00+01:00\"],\"email\":\"pippo@email.com\",\"name\": \"Pippo\",\"surname\": \"Rossi\"}"
+						},
+						"url": {
+							"raw": "localhost:8080/book",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"book"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "book1_400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Prenotazione già inserita",
+									"",
+									"pm.test(\"Book1 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"event_id\": 1,\"datetimes\": [\"2022-06-01T21:00:00+01:00\"],\"email\":\"mario@email.com\",\"name\": \"Mario\",\"surname\": \"Rossi\"}"
+						},
+						"url": {
+							"raw": "localhost:8080/book",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"book"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "book1_403",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Prenotazioni chiuse per l'evento",
+									"",
+									"pm.test(\"Book1 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"event_id\": 6,\"datetimes\": [\"2022-06-01T21:00:00+01:00\",\"2022-06-02T21:00:00+01:00\"],\"email\":\"pippo@email.com\",\"name\": \"Pippo\",\"surname\": \"Rossi\"}"
+						},
+						"url": {
+							"raw": "localhost:8080/book",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"book"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "book2_200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Richiesta corretta",
+									"",
+									"pm.test(\"Book2 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"event_id\": 2,\"datetimes\": [\"2022-06-01T17:00:00+01:00\",\"2022-06-01T18:00:00+01:00\"],\"email\":\"pippo@email.com\",\"name\": \"Pippo\",\"surname\": \"Rossi\"}"
+						},
+						"url": {
+							"raw": "localhost:8080/book",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"book"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "book2_400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Datetime non previsti dall'evento",
+									"",
+									"pm.test(\"Book2 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"event_id\": 2,\"datetimes\": [\"2022-10-01T21:00:00+01:00\"],\"email\":\"pippo@email.com\",\"name\": \"Pippo\",\"surname\": \"Rossi\"}"
+						},
+						"url": {
+							"raw": "localhost:8080/book",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"book"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "book2_403",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Slot temporale già occupato",
+									"",
+									"pm.test(\"Book2 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"event_id\": 2,\"datetimes\": [\"2022-06-01T14:00:00+01:00\"],\"email\":\"pippo@email.com\",\"name\": \"Pippo\",\"surname\": \"Rossi\"}"
+						},
+						"url": {
+							"raw": "localhost:8080/book",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"book"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "book3_200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Richiesta corretta",
+									"",
+									"pm.test(\"Book3 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"event_id\": 3,\"datetimes\": [\"2022-06-15T09:30:00+01:00\"],\"email\":\"pippo@email.com\",\"name\": \"Pippo\",\"surname\": \"Rossi\"}"
+						},
+						"url": {
+							"raw": "localhost:8080/book",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"book"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "book3_400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Specificare un solo slot nel payload",
+									"",
+									"pm.test(\"Book3 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"event_id\": 3,\"datetimes\": [\"2022-06-15T10:00:00+01:00\",\"2022-06-15T10:30:00+01:00\"],\"email\":\"pippo@email.com\",\"name\": \"Pippo\",\"surname\": \"Rossi\"}"
+						},
+						"url": {
+							"raw": "localhost:8080/book",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"book"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "book3_403",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Solo slot per evento",
+									"",
+									"pm.test(\"Book3 403\", function () {",
+									"    pm.response.to.have.status(403);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "default"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"event_id\": 3,\"datetimes\": [\"2022-06-15T11:00:00+01:00\"],\"email\":\"pippo@email.com\",\"name\": \"Luigi\",\"surname\": \"Rossi\"}"
+						},
+						"url": {
+							"raw": "localhost:8080/book",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"book"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "refill",
+			"item": [
+				{
+					"name": "refill_200",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Richiesta corretta",
+									"",
+									"pm.test(\"Refill 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvd25lciI6Imdpb3JkYW5vQGVtYWlsLmNvbSIsInRva2VuIjoxNSwic2VuZGVyX2lkIjoiYW50b25pb0BlbWFpbC5jb20iLCJzZW5kZXJfcm9sZSI6ImFkbWluIn0.JnIYx1dAApd1XGjOOj3dtokwWjBIMMMIjGtJuaupKS4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/refill",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"refill"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refill_400",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Nuovo credito malformato",
+									"",
+									"pm.test(\"Refill 400\", function () {",
+									"    pm.response.to.have.status(400);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvd25lciI6Imdpb3JkYW5vQGVtYWlsLmNvbSIsInRva2VuIjoiTkFOIiwic2VuZGVyX2lkIjoiYW50b25pb0BlbWFpbC5jb20iLCJzZW5kZXJfcm9sZSI6ImFkbWluIn0.r1NyZAUgYWEkVVtz7XDjUYX7dLOAOgGL2edA35ULhRU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/refill",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"refill"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refill_401",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Chiamata non effettuata da admin",
+									"",
+									"pm.test(\"Refill 401\", function () {",
+									"    pm.response.to.have.status(401);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvd25lciI6Imdpb3JkYW5vQGVtYWlsLmNvbSIsInRva2VuIjoxNSwic2VuZGVyX2lkIjoiZ2lvcmRhbm9AZW1haWwuY29tIiwic2VuZGVyX3JvbGUiOiJ1c2VyIn0.v0syfaeTb9XUmQlprYJvNq_6b3YAT9bIsqxLx2hB4Uo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/refill",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"refill"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refill_404",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Owner inesistente",
+									"",
+									"pm.test(\"Refill 404\", function () {",
+									"    pm.response.to.have.status(404);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvd25lciI6ImFueV9vdGhlciIsInRva2VuIjoxNSwic2VuZGVyX2lkIjoiYW50b25pb0BlbWFpbC5jb20iLCJzZW5kZXJfcm9sZSI6ImFkbWluIn0.Mbkjib4CMR1KFByCqVUdTWlBxrEQ1mUXvuo1YjF9DB4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/refill",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"refill"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

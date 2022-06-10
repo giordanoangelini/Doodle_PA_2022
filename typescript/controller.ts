@@ -12,7 +12,7 @@ hashDecreaseToken.set(3,4);
 export async function checkUserExistence(email: string, res: any): Promise<boolean>{
     let result: any;
     try{
-        result= await User.findByPk(email);
+        result = await User.findByPk(email, {raw: true});
     }catch(error){
         controllerErrors(ErrorEnum.InternalServer, error, res);
     }
@@ -23,7 +23,7 @@ export async function checkUserExistence(email: string, res: any): Promise<boole
 export async function checkBalance(email: string, modality: number, res: any): Promise<boolean>{
     let result: any;
     try{
-        result = await User.findByPk(email);
+        result = await User.findByPk(email, {raw: true});
     }catch(error){
         controllerErrors(ErrorEnum.InternalServer, error, res);
     }
@@ -43,7 +43,7 @@ export function createEvent(event: any, res: any): void{
 }
 
 export function showEvents(email: string, res: any): void{
-    Event.findAll({where: { owner : email }}).then((items: object[]) => {
+    Event.findAll({where: { owner : email }, raw: true}).then((items: object[]) => {
         const active: object[] = items.filter((element: any) => element.status == 1);
         const inactive: object[] = items.filter((element: any) => element.status == 0);
         const new_res = getSuccess(SuccessEnum.ShowEvents).getSuccObj();
@@ -56,7 +56,7 @@ export function showEvents(email: string, res: any): void{
 export async function checkEventOwner(event_id: number, owner: string, res: any): Promise<boolean> {
     let result: any;
     try{
-        result= await Event.findByPk(event_id);
+        result= await Event.findByPk(event_id, {raw: true});
     }catch(error){
         controllerErrors(ErrorEnum.InternalServer, error, res);
     }
@@ -66,7 +66,7 @@ export async function checkEventOwner(event_id: number, owner: string, res: any)
 export async function checkEventExistence(event_id: number, res: any): Promise<boolean> {
     let result: any;
     try{
-        result = await Event.findByPk(event_id);
+        result = await Event.findByPk(event_id, {raw: true});
     }catch(error){
         controllerErrors(ErrorEnum.InternalServer, error, res);
     }
@@ -76,7 +76,7 @@ export async function checkEventExistence(event_id: number, res: any): Promise<b
 export async function getEventModality(event_id: number, res: any): Promise<number> {
     let result: any;
     try{
-        result = await Event.findByPk(event_id);
+        result = await Event.findByPk(event_id, {raw: true});
     }catch(error){
         controllerErrors(ErrorEnum.InternalServer, error, res);
     }
@@ -86,7 +86,7 @@ export async function getEventModality(event_id: number, res: any): Promise<numb
 export async function getEventStatus(event_id: number, res: any): Promise<number> {
     let result: any;
     try{
-        result = await Event.findByPk(event_id);
+        result = await Event.findByPk(event_id, {raw: true});
     }catch(error){
         controllerErrors(ErrorEnum.InternalServer, error, res);
     }
@@ -96,7 +96,7 @@ export async function getEventStatus(event_id: number, res: any): Promise<number
 export async function getEventDatetimes(event_id: number, res: any): Promise<any> {
     let result: any;
     try{
-        result = await Event.findByPk(event_id);
+        result = await Event.findByPk(event_id, {raw: true});
     }catch(error){
         controllerErrors(ErrorEnum.InternalServer, error, res);
     }
@@ -106,7 +106,7 @@ export async function getEventDatetimes(event_id: number, res: any): Promise<any
 export async function getEventBookings(event_id: number, res: any): Promise<object> {
     let result: any;
     try{
-        result = await Preference.findAll({where: { event_id: event_id}});
+        result = await Preference.findAll({where: { event_id: event_id}, raw: true});
     }catch(error){
         controllerErrors(ErrorEnum.InternalServer, error, res);
     }
@@ -137,7 +137,8 @@ export function showBookings(event_id: number, limit: number, res: any): void {
             group: ['datetime'],
             attributes: ['datetime', [Sequelize.fn('count', Sequelize.col('*')), 'occurrences']],
             order: [[Sequelize.col('occurrences'), 'DESC']],
-            limit: limit
+            limit: limit,
+            raw: true
         }).then((result: any) => {
             const new_res = getSuccess(SuccessEnum.ShowBookings).getSuccObj();
             res.status(new_res.status).json({message:new_res.msg, bookings:result});
@@ -155,7 +156,7 @@ export function showBookings(event_id: number, limit: number, res: any): void {
 export async function getRole(email: string, res: any): Promise<string> {
     let result: any;
     try{
-        result = await User.findByPk(email);
+        result = await User.findByPk(email, {raw: true});
     }catch(error){
         controllerErrors(ErrorEnum.InternalServer, error, res);
     }

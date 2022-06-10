@@ -3,6 +3,7 @@ import * as Controller from './controller';
 import * as Middleware from './middleware/middleware_chain'
 
 const app = express();
+
 app.use(express.json());
 
 // Richiesta che consente di creare un evento (Autenticazione JWT)

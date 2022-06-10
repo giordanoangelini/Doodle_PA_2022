@@ -102,7 +102,7 @@ export function checkBookingExistence(req: any, res: any, next: any): void {
     Controller.getEventBookings(req.body.event_id, res).then((bookings: any) => {
         let duplicates: any[] = bookings.filter((elem: any) => 
             elem.email == req.body.email &&
-            elem.datetime == req.body.datetime &&
+            req.body.datetimes.includes(elem.datetime) &&
             elem.event_id == req.body.event_id);
         if(duplicates.length != 0) next(ErrorEnum.DuplicateDatetimes);
         else next();
