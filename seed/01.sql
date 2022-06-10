@@ -52,13 +52,15 @@ ALTER TABLE preference
 INSERT INTO user (email, name, surname, role, token) VALUES 
   ('antonio@email.com', 'Antonio', 'Bandello', 'admin', 0),
   ('giordano@email.com', 'Giordano', 'Angelini', 'user', 10),
-  ('cristian@email.com', 'Cristian', 'Di Silvestre', 'user', 10),
+  ('cristian@email.com', 'Cristian', 'Di Silvestre', 'user', 3),
   ('adriano@email.com', 'Adriano', 'Mancini', 'user', 10);;
 
-INSERT INTO event (title, owner, modality, datetimes, status, latitude, longitude, link) VALUES
-  ('Riunione di Staff', 'giordano@email.com', 1, '["2022-06-01T21:00:00+01:00","2022-06-02T21:00:00+01:00","2022-06-03T21:00:00+01:00","2022-06-04T21:00:00+01:00","2022-06-05T21:00:00+01:00"]', 1, NULL, NULL, NULL),
-  ('Disponibilità sala studio', 'cristian@email.com', 2, '["2022-06-01T14:00:00+01:00","2022-06-01T15:00:00+01:00","2022-06-01T16:00:00+01:00","2022-06-01T17:00:00+01:00","2022-06-01T18:00:00+01:00"]', 1, NULL, NULL, NULL),
-  ('Esame di Programmazione Avanzata', 'adriano@email.com', 3, '["2022-06-15T09:00:00+01:00","2022-06-15T09:30:00+01:00","2022-06-15T10:00:00+01:00","2022-06-15T10:30:00+01:00","2022-06-15T11:00:00+01:00"]', 1, NULL, NULL, NULL);
+INSERT INTO event (title, owner, modality, datetimes, latitude, longitude, link) VALUES
+  ('Riunione di Staff', 'giordano@email.com', 1, '["2022-06-01T21:00:00+01:00","2022-06-02T21:00:00+01:00","2022-06-03T21:00:00+01:00","2022-06-04T21:00:00+01:00","2022-06-05T21:00:00+01:00"]', NULL, NULL, NULL),
+  ('Disponibilità sala studio', 'cristian@email.com', 2, '["2022-06-01T14:00:00+01:00","2022-06-01T15:00:00+01:00","2022-06-01T16:00:00+01:00","2022-06-01T17:00:00+01:00","2022-06-01T18:00:00+01:00"]', NULL, NULL, NULL),
+  ('Esame di Programmazione Avanzata', 'adriano@email.com', 3, '["2022-06-15T09:00:00+01:00","2022-06-15T09:30:00+01:00","2022-06-15T10:00:00+01:00","2022-06-15T10:30:00+01:00","2022-06-15T11:00:00+01:00"]', NULL, NULL, NULL),
+  ('Riunione Scout', 'giordano@email.com', 1, '["2022-06-01T15:00:00+01:00","2022-06-02T15:00:00+01:00","2022-06-03T15:00:00+01:00","2022-06-04T15:00:00+01:00","2022-06-05T15:00:00+01:00"]', NULL, NULL, NULL),
+  ('Riunione Scout', 'giordano@email.com', 1, '["2022-06-10T15:00:00+01:00","2022-06-11T15:00:00+01:00","2022-06-12T15:00:00+01:00","2022-06-13T15:00:00+01:00","2022-06-14T15:00:00+01:00"]', NULL, NULL, NULL);
 
 INSERT INTO preference (event_id, datetime, email, name, surname) VALUES
   (1, "2022-06-01T21:00:00+01:00", "mario@email.com", "Mario", "Rossi"),

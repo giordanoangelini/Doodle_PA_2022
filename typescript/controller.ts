@@ -185,8 +185,6 @@ export async function checkBookingExistence(event_id: number, datetime: string, 
 }
 
 export function book(preference: any, res: any) : void {
-    console.log(11);
-    
     for(const element of preference.datetimes) {
         Preference.create({
             event_id: preference.event_id,

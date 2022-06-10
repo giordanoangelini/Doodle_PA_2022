@@ -1,7 +1,5 @@
-import { request } from 'express';
 import * as Controller from '../controller';
 import { ErrorEnum } from '../factory/error';
-import { any_other, book } from './middleware_chain';
 
 // Controlla che i valori contenuti nel payload siano compatibili
 export function checkPayload(req: any, res: any, next: any) : void {
@@ -119,28 +117,27 @@ export function checkDatetimesExistence(req: any, res: any, next: any): void {
     });
 }
 
-export function checkBookingSecondModality(req: any, res: any, next: any): void {
-    Controller.getEventBookings(req.body.event_id, res).then((result: any) => {     
-        if (req.body.modality == 2 || req.body.modality == 3) {
-            let duplicates: any = result.filter((elem: any) => req.body.datetimes.includes(elem.datetime));
-                if (duplicates.length != 0) next(ErrorEnum.AlreadyBookedDatetime);
-                else next();
-        }
-        else next();              
-    });
+export function checkBookingSecondModality(req: any, res: any, next: any): void {   
+    if (req.body.modality == 2 || req.body.modality == 3) {
+        Controller.getEventBookings(req.body.event_id, res).then((result: any) => {   
+        let duplicates: any = result.filter((elem: any) => req.body.datetimes.includes(elem.datetime));
+            if (duplicates.length != 0) next(ErrorEnum.AlreadyBookedDatetime);
+            else next();
+        });
+    } else next();              
 }
 
 export function checkBookingThirdModality(req: any, res: any, next: any): void {
-    Controller.getEventBookings(req.body.event_id, res).then((result: any) => {
-        if(req.body.modality == 3) {
-            if (req.body.datetimes.length != 1) next(ErrorEnum.OnlyOneBooking);
-            else {
+    if(req.body.modality == 3) {
+        if (req.body.datetimes.length != 1) next(ErrorEnum.OnlyOneBooking);
+        else {
+            Controller.getEventBookings(req.body.event_id, res).then((result: any) => {
                 let duplicates: any = result.filter((elem: any) => elem.email == req.body.email);
                 if(duplicates.length != 0) next(ErrorEnum.AlreadyBookedEvent);
                 else next();
-            }
-        } else next();
-    });
+            })
+        }
+    } else next();
 }
 
 export function checkRefill(req: any, res: any, next: any): void {
