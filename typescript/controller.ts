@@ -1,7 +1,7 @@
 import { ErrorEnum, getError } from './factory/error';
 import { SuccessEnum, getSuccess } from './factory/success';
 import { User, Event, Preference } from './model/model';
-import { countOccurences } from './model/raw_queries';
+import { Sequelize } from 'sequelize';
 
 let hashDecreaseToken: Map<number, number> = new Map();
 hashDecreaseToken.set(1,1); 
@@ -23,7 +23,7 @@ export async function checkUserExistence(email: string, res: any): Promise<boole
 export async function checkBalance(email: string, modality: number, res: any): Promise<boolean>{
     let result: any;
     try{
-        result = await User.findByPk(email,{raw: true});
+        result = await User.findByPk(email);
     }catch(error){
         controllerErrors(ErrorEnum.InternalServer, error, res);
     }
@@ -43,7 +43,7 @@ export function createEvent(event: any, res: any): void{
 }
 
 export function showEvents(email: string, res: any): void{
-    Event.findAll({raw: true, where: { owner : email }}).then((items: object[]) => {
+    Event.findAll({where: { owner : email }}).then((items: object[]) => {
         const active: object[] = items.filter((element: any) => element.status == 1);
         const inactive: object[] = items.filter((element: any) => element.status == 0);
         const new_res = getSuccess(SuccessEnum.ShowEvents).getSuccObj();
@@ -56,7 +56,7 @@ export function showEvents(email: string, res: any): void{
 export async function checkEventOwner(event_id: number, owner: string, res: any): Promise<boolean> {
     let result: any;
     try{
-        result= await Event.findByPk(event_id,{raw:true});
+        result= await Event.findByPk(event_id);
     }catch(error){
         controllerErrors(ErrorEnum.InternalServer, error, res);
     }
@@ -76,7 +76,7 @@ export async function checkEventExistence(event_id: number, res: any): Promise<b
 export async function getEventModality(event_id: number, res: any): Promise<number> {
     let result: any;
     try{
-        result = await Event.findByPk(event_id, {raw: true});
+        result = await Event.findByPk(event_id);
     }catch(error){
         controllerErrors(ErrorEnum.InternalServer, error, res);
     }
@@ -86,7 +86,7 @@ export async function getEventModality(event_id: number, res: any): Promise<numb
 export async function getEventStatus(event_id: number, res: any): Promise<number> {
     let result: any;
     try{
-        result = await Event.findByPk(event_id, {raw: true});
+        result = await Event.findByPk(event_id);
     }catch(error){
         controllerErrors(ErrorEnum.InternalServer, error, res);
     }
@@ -96,7 +96,7 @@ export async function getEventStatus(event_id: number, res: any): Promise<number
 export async function getEventDatetimes(event_id: number, res: any): Promise<any> {
     let result: any;
     try{
-        result = await Event.findByPk(event_id, {raw: true});
+        result = await Event.findByPk(event_id);
     }catch(error){
         controllerErrors(ErrorEnum.InternalServer, error, res);
     }
@@ -106,7 +106,7 @@ export async function getEventDatetimes(event_id: number, res: any): Promise<any
 export async function getEventBookings(event_id: number, res: any): Promise<object> {
     let result: any;
     try{
-        result = await Preference.findAll({raw: true, where: { event_id: event_id}});
+        result = await Preference.findAll({where: { event_id: event_id}});
     }catch(error){
         controllerErrors(ErrorEnum.InternalServer, error, res);
     }
@@ -133,12 +133,14 @@ export function closeEvent(event_id: number, res: any): void {
 
 export function showBookings(event_id: number, limit: number, res: any): void {
     if(limit){
-        countOccurences(event_id, limit).then((result: any) => {
-            if(result.error_flag) controllerErrors(ErrorEnum.InternalServer, result.result_body, res);
-            else {
-                const new_res = getSuccess(SuccessEnum.ShowBookings).getSuccObj();
-                res.status(new_res.status).json({message:new_res.msg, bookings:result.result_body[0]});
-            }
+        Preference.findAll({
+            group: ['datetime'],
+            attributes: ['datetime', [Sequelize.fn('count', Sequelize.col('*')), 'occurrences']],
+            order: [[Sequelize.col('occurrences'), 'DESC']],
+            limit: limit
+        }).then((result: any) => {
+            const new_res = getSuccess(SuccessEnum.ShowBookings).getSuccObj();
+            res.status(new_res.status).json({message:new_res.msg, bookings:result});
         });
         } else {
         getEventBookings(event_id, res).then((items) => {
@@ -153,7 +155,7 @@ export function showBookings(event_id: number, limit: number, res: any): void {
 export async function getRole(email: string, res: any): Promise<string> {
     let result: any;
     try{
-        result = await User.findByPk(email,{raw: true});
+        result = await User.findByPk(email);
     }catch(error){
         controllerErrors(ErrorEnum.InternalServer, error, res);
     }
@@ -167,21 +169,6 @@ export function refill(refill: any, res: any): void {
     }).catch((error) => {
         controllerErrors(ErrorEnum.InternalServer, error, res);
     });
-}
-
-export async function checkBookingExistence(event_id: number, datetime: string, email: string, res: any): Promise<boolean> {
-    let result: any;
-    try{
-    result = await Preference.findAll(
-        {where: {
-            event_id: event_id,
-            datetime: datetime,
-            email: email,
-        }});
-    }catch(error){
-        controllerErrors(ErrorEnum.InternalServer, error, res);
-    }
-    return (result.length != 0);
 }
 
 export function book(preference: any, res: any) : void {

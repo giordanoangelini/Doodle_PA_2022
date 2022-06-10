@@ -71,6 +71,19 @@ export function checkLimit(req: any, res: any, next: any): void {
     } else next();
 }
 
+export function adjustLimit(req: any, res: any, next: any): void {
+    Controller.getEventModality(req.body.event_id, res).then((modality) => {
+        if(!req.body.limit && modality == 1) {
+            req.body.limit = 10;
+            next();
+        } else if(req.body.limit && modality == 1) next();
+        else {
+            req.body.limit = null;
+            next();
+        }
+    });
+}
+
 export function checkEventStatus(req: any, res: any, next: any): void {
     Controller.getEventStatus(req.body.event_id, res).then((result: number) => {
         if(result == 0) next(ErrorEnum.EventClosed);
@@ -82,19 +95,6 @@ export function getEventModality(req: any, res: any, next: any): void {
     Controller.getEventModality(req.body.event_id, res).then((modality) => {
         req.body.modality = modality;
         next();
-    });
-}
-
-export function checkModality(req: any, res: any, next: any): void {
-    Controller.getEventModality(req.body.event_id, res).then((modality) => {
-        if(!req.body.limit && modality == 1) {
-            req.body.limit = 10;
-            next();
-        } else if(req.body.limit && modality == 1) next();
-        else {
-            req.body.limit = null;
-            next();
-        }
     });
 }
 
@@ -141,7 +141,7 @@ export function checkBookingThirdModality(req: any, res: any, next: any): void {
 }
 
 export function checkRefill(req: any, res: any, next: any): void {
-    if (req.body.token <= 0) next(ErrorEnum.MalformedPayload);
+    if (typeof req.body.token != 'number' || req.body.token <= 0) next(ErrorEnum.MalformedPayload);
     else next();
 }
 
