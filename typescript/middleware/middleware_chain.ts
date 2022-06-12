@@ -1,6 +1,13 @@
 import * as RequestMiddleware from './request_middleware';
 import * as RouteMiddleware from './route_middleware';
 
+/**
+ * "Catene di middleware"
+ * 
+ * Gli array seguenti definiscono quali middleware (e in che ordine) devono essere superati
+ * affinchè la richiesta HTTP pervenga al controller.
+*/
+
 export const JWT = [
     RequestMiddleware.checkAuthHeader, 
     RequestMiddleware.checkToken, 
@@ -43,10 +50,10 @@ export const show_bookings = [
 export const book = [
     RouteMiddleware.checkEventExistence,
     RouteMiddleware.checkEventStatus,
-    RouteMiddleware.getEventModality,
     RouteMiddleware.checkDatetimes,
     RouteMiddleware.checkDatetimesExistence,
     RouteMiddleware.checkBookingExistence,
+    RouteMiddleware.getEventModality,
     RouteMiddleware.checkBookingSecondModality,
     RouteMiddleware.checkBookingThirdModality
 ];

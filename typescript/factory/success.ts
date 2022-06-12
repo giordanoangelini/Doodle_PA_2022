@@ -1,11 +1,20 @@
 import * as Message from "./string_messages";
 
+/**
+ * Interfaccia 'SuccessObj'
+ * 
+ * Dichiara il metodo {@link getSuccessObj} che viene implementato dalle classi successive.
+ * Ogni classe si occupa di costruire un oggetto che riporterà i campi 'status' (status code
+ * della risposta HTTP) e 'msg' (messaggio da ritornare al client nel corpo della risposta).
+ *
+ * @returns Oggetto da ritornare nel corpo della risposta
+ */
 interface  SuccessObj {
-    getSuccObj(): { status : number,  msg : string };
+    getSuccessObj(): { status : number,  msg : string };
 }
 
 class EventCreated implements SuccessObj {
-    getSuccObj(): { status : number,  msg : string } {
+    getSuccessObj(): { status : number,  msg : string } {
         return {
             status: 201,
             msg: Message.eventCreated_message
@@ -14,7 +23,7 @@ class EventCreated implements SuccessObj {
 }
 
 class ShowEvents implements SuccessObj {
-    getSuccObj(): { status : number,  msg : string } {
+    getSuccessObj(): { status : number,  msg : string } {
         return {
             status: 200,
             msg: Message.showEvents_message
@@ -23,7 +32,7 @@ class ShowEvents implements SuccessObj {
 }
 
 class EventDeleted implements SuccessObj {
-    getSuccObj(): { status : number,  msg : string } {
+    getSuccessObj(): { status : number,  msg : string } {
         return {
             status: 200,
             msg: Message.eventDeleted_message
@@ -32,7 +41,7 @@ class EventDeleted implements SuccessObj {
 }
 
 class EventClosed implements SuccessObj {
-    getSuccObj(): { status : number,  msg : string } {
+    getSuccessObj(): { status : number,  msg : string } {
         return {
             status: 200,
             msg: Message.successEventClosed_message
@@ -41,7 +50,7 @@ class EventClosed implements SuccessObj {
 }
 
 class ShowBookings implements SuccessObj {
-    getSuccObj(): { status : number,  msg : string } {
+    getSuccessObj(): { status : number,  msg : string } {
         return {
             status: 200,
             msg: Message.showBookings_message
@@ -50,7 +59,7 @@ class ShowBookings implements SuccessObj {
 }
 
 class TokenRefill implements SuccessObj {
-    getSuccObj(): { status : number,  msg : string } {
+    getSuccessObj(): { status : number,  msg : string } {
         return {
             status: 200,
             msg: Message.tokenRefill_message
@@ -59,7 +68,7 @@ class TokenRefill implements SuccessObj {
 }
 
 class BookingCompleted implements SuccessObj {
-    getSuccObj(): { status : number,  msg : string } {
+    getSuccessObj(): { status : number,  msg : string } {
         return {
             status: 200,
             msg: Message.bookingCompleted_message
@@ -68,17 +77,23 @@ class BookingCompleted implements SuccessObj {
 }
 
 export enum SuccessEnum {
-    // 200
     ShowEvents,
     EventDeleted,
     EventClosed,
     ShowBookings,
     TokenRefill,
-    // 201
     EventCreated,
     BookingCompleted
 }
 
+/**
+ * Funzione 'getSuccess'
+ * 
+ * Funzione che viene invocata dal controller nel momento in cui si conclude un'azione con successo.
+ *
+ * @param type Il tipo di 'successo' ottenuto dal Controller
+ * @returns Un oggetto diverso dell'interfaccia {@link SuccessObj} a seconda del parametro in input
+ */
 export function getSuccess(type: SuccessEnum): SuccessObj{
     let retval: SuccessObj = null;
     switch (type){

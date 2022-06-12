@@ -1,6 +1,15 @@
 import * as Message from "./string_messages";
 
-interface  ErrorObj {
+/**
+ * Interfaccia 'ErrorObj'
+ * 
+ * Dichiara il metodo {@link getErrorObj} che viene implementato dalle classi successive.
+ * Ogni classe si occupa di costruire un oggetto che riporterà i campi 'status' (status code
+ * della risposta HTTP) e 'msg' (messaggio da ritornare al client nel corpo della risposta).
+ *
+ * @returns Oggetto da ritornare nel corpo della risposta
+ */
+interface ErrorObj {
     getErrorObj(): { status: number,  msg: string };
 }
 
@@ -203,30 +212,40 @@ class OnlyOneBooking implements ErrorObj {
 }
 
 export enum ErrorEnum {
-    MissingToken,//
-    InvalidToken,//
-    RouteNotFound,//
-    NoAuthHeader,//
-    NoPayloadHeader,//
-    MalformedPayload,//
-    DuplicateDatetimes,//
-    UserNotFound,//
-    EventNotFound,//
-    InsufficientBalance,//
-    UnplannedDatetimes,//
-    BookedEvent,//
-    AlreadyBookedDatetime,//
-    AlreadyBookedEvent,//
-    OnlyOneBooking,//
+    MissingToken,
+    InvalidToken,
+    RouteNotFound,
+    NoAuthHeader,
+    NoPayloadHeader,
+    MalformedPayload,
+    DuplicateDatetimes,
+    UserNotFound,
+    EventNotFound,
+    InsufficientBalance,
+    UnplannedDatetimes,
+    BookedEvent,
+    AlreadyBookedDatetime,
+    AlreadyBookedEvent,
+    OnlyOneBooking,
+    EventClosed,
     BadRequest,
-    EventClosed,//
-    Unauthorized,//
-    Forbidden,//
+    Unauthorized,
+    Forbidden,
     NotFound,
-    InternalServer,//
+    InternalServer,
     ServiceUnavailable
 }
 
+
+/**
+ * Funzione 'getError'
+ * 
+ * Funzione che viene invocata dagli strati middleware del servizio nel caso in cui non vengano
+ * rispettate alcune condizioni di validità della richiesta HTTP o dello stato del sistema.
+ *
+ * @param type Il tipo di eccezione sollevata dai middleware
+ * @returns Un oggetto diverso dell'interfaccia {@link ErrorObj} a seconda del parametro in input
+ */
 export function getError(type: ErrorEnum): ErrorObj{
     let retval: ErrorObj = null;
     switch (type){
