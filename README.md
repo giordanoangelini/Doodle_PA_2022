@@ -130,7 +130,7 @@ Da effettuare tramite token JWT che deve contenere un payload JSON con la seguen
 }
 ~~~
 
-## Progettazione UML
+## Progettazione - UML
 Di seguito vengono riportati i diagrammi UML:
 * Use Case Diagram
 * Interaction Overview Diagram
@@ -165,6 +165,27 @@ Di seguito vengono riportati i diagrammi UML:
 * **Chiamata POST /refill :**
 <img src = "resources/refill-SequenceDiagram.jpg">
 
+## Progettazione - Pattern
+
+### Singleton
+Il Singleton fa parte dei Creational Design Pattern e assicura che una classe abbia una singola istanza accessibile globalmente.\
+Tale pattern è stato utilizzato per instaurare una connessione con il database così da avere la certezza di lavorare sulle medesime istanze dello stesso.\
+Nel dettaglio, il Singleton è implementato nel file [sequelize.ts](typescript/singleton/sequelize.ts).
+
+### Factory <a name="factory"></a>
+La Factory fa parte dei Creational Design Pattern e fornisce un'interfaccia per la creazione di oggetti i quali possono essere alterati dalle classi che implementano la stessa.\
+Tale pattern è stato utilizzato per la creazione di oggetti che descrivono errori o successi del servizio, essendo questi ultimi accumunati dalla medesima struttura (status code e messaggio da ritornare nella risposta HTTP).\
+Nel dettaglio, la Factory è implementata in [factory](typescript/factory).
+
+### Chain of Responsibility (CoR) 
+La CoR fa parte dei Behavioural Design Pattern e permette di processare una richiesta attraverso l'esecuzione di funzioni collegate tra loro in un determinato ordine. In Express, la CoR è realizzata tramite le funzionalità dei middleware i quali rappresentano i veri e propri anelli della catena.\
+Tale pattern è stato utilizzato per filtrare le richieste HTTP in modo da far pervenire al Controller solamente quelle corrette; per ogni rotta è stata definita una catena di middleware composta da:
+* middleware per il controllo dell'header e del token JWT (ove necessario);
+* middleware specifici della rotta (controllo sui tipi, sull'integrità dei dati, sui vincoli del database...);
+* middleware per la gestione degli errori, che prendono in carico le eccezioni sollevate dagli anelli precedenti e generano oggetti tramite la [Factory](#factory).
+
+Nel dettaglio, la CoR è implementata in [middleware](typescript/middleware).
+
 ## Avvio del servizio
 Prerequisiti:
 * Ambiente Docker installato sulla propria macchina
@@ -183,7 +204,7 @@ $ docker-compose up
 
 ## Test del progetto
 
-É possibile eseguire una serie di test predefiniti importando all'interno di Postman la collection [(postman_collection.json)](postman_collection.json) situata all'interno della root directory di tale repository.
+É possibile eseguire una serie di test predefiniti importando all'interno di Postman la collection [(postman_collection.json)](postman_collection.json) situata all'interno della root directory di tale repository. Tutti i token JWT sono stati generati tramite la chiave 'mysupersecretkey'.
 
 
 ## Note
