@@ -254,6 +254,7 @@ export function closeEvent(event_id: number, res: any): void {
 export function showBookings(event_id: number, limit: number, res: any): void {
     if(limit){
         Preference.findAll({
+            where: {event_id: event_id},
             group: ['datetime'],
             attributes: ['datetime', [Sequelize.fn('count', Sequelize.col('*')), 'occurrences']],
             order: [[Sequelize.col('occurrences'), 'DESC']],
