@@ -1,10 +1,18 @@
 import * as express from 'express';
 import * as Controller from './controller';
+import { ErrorEnum, getError } from './factory/error';
 import * as Middleware from './middleware/middleware_chain'
 
 const app = express();
 
 app.use(express.json());
+app.use((err: Error, req: any, res: any, next: any) => {
+    if (err instanceof SyntaxError) {
+        const new_err = getError(ErrorEnum.MalformedPayload).getErrorObj();
+        res.status(new_err.status).json(new_err.msg);
+    }
+    next();
+});
 
 /**
  * Richiesta che consente di creare un evento (Autenticazione JWT)
