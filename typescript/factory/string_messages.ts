@@ -1,4 +1,7 @@
-//-- ERROR --
+/**
+ * File contente i messaggi da ritornare nel corpo della risposta.
+*/
+
 export const noAuthHeader_message: string = "Bad Request - No authorization header";
 export const noPayoadHeader_message: string = "Bad Request - No JSON payload header";
 export const missingToken_message: string = "Bad Request - Missing JWT Token";
@@ -22,7 +25,6 @@ export const alreadyBookedDatetime_message: string = "Forbidden - Datetime alrea
 export const alreadyBookedEvent_message: string = "Forbidden - You already booked this event";
 export const onlyOneBooking_message: string = "Bad Request - Too many preferences in payload";
 
-//-- SUCCESS --
 export const eventCreated_message: string = "SUCCESS - Event created succesfully";
 export const showEvents_message: string = "SUCCESS - Events displayed succesfully";
 export const eventDeleted_message: string = "SUCCESS - Event deleted succesfully";

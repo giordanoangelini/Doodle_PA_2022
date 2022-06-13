@@ -1,7 +1,16 @@
 import { SequelizeSingleton } from "../singleton/sequelize";
 import { DataTypes, Sequelize } from 'sequelize';
 
+/**
+ * Instanziazione della connessione verso il RDBMS
+ */
 const sequelize: Sequelize = SequelizeSingleton.getConnection();
+
+/**
+ * Definizione dell'ORM attraverso il quale effettuare le query su DB.
+ * É stata utilizzata la libreria Sequelize che permette di definire un modello per ogni
+ * relazione.
+*/ 
 
 export const User = sequelize.define('user', {
     email: {
