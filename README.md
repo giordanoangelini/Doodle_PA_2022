@@ -29,7 +29,7 @@ La seguente tabella mostra le richieste possibili:
  
 
 ### Creare un evento (create-event)
-Tramite questa richiesta è possibile creare un nuovo evento.\
+Tramite questa richiesta è possibile creare un nuovo evento.
 ~~~
 Da effettuare tramite token JWT che deve contenere un payload JSON con la seguente struttura:
 {
@@ -47,16 +47,17 @@ Da effettuare tramite token JWT che deve contenere un payload JSON con la seguen
   "sender_role": "user",
   "sender_id": "giordano@email.com"
 }
-~~~
-*Le coordinate e il link possono essere omessi o avere valore 'null'
 
-La modalità di un evento può assumere valore:
+* Le coordinate e il link possono essere omessi o avere valore 'null'
+~~~
+
+<a name="modality"></a>La modalità di un evento può assumere valore:
 * 1: Nessuna restrizione sulla prenotazione (tutti possono prenotare qualsiasi slot); serve per trovare la soluzione più “gettonata”
 * 2: Vincolare ad ogni slot una sola preferenza; serve per limitare che più utenti possano prenotare lo stesso slot
 * 3: Vincolare per un utente un singolo slot (evitare che un utente possa occupare più slot)
 
 ### Mostrare eventi (show-events)
-Tramite questa richiesta è possibile ottenere la lista di eventi organizzati da uno specifico utente suddivisi per attivi (iscrizioni aperte) e inattivi (iscrizioni chiuse).\
+Tramite questa richiesta è possibile ottenere la lista di eventi organizzati da uno specifico utente suddivisi per attivi (iscrizioni aperte) e inattivi (iscrizioni chiuse).
 ~~~
 Da effettuare tramite token JWT che deve contenere un payload JSON con la seguente struttura:
 {
@@ -67,94 +68,130 @@ Da effettuare tramite token JWT che deve contenere un payload JSON con la seguen
 ~~~
 
 ### Cancellare eventi (delete-event)
-Tramite questa richiesta è possibile cancellare un evento per il quale non sia stata ancora espressa alcuna preferenza.\
+Tramite questa richiesta è possibile cancellare un evento per il quale non sia stata ancora espressa alcuna preferenza.
 ~~~
 Da effettuare tramite token JWT che deve contenere un payload JSON con la seguente struttura:
 {
-  "owner": "giordano@email.com",
+  "event_id": 4,
   "sender_role": "user",
   "sender_id": "giordano@email.com"
 }
 ~~~
 
+### Chiudere eventi (close-event)
+Tramite questa richiesta è possibile chiudere un evento, ovvero non permettere ulteriori prenotazioni.
+~~~
+Da effettuare tramite token JWT che deve contenere un payload JSON con la seguente struttura:
+{
+  "event_id": 5,
+  "sender_role": "user",
+  "sender_id": "giordano@email.com"
+}
+~~~
+
+### Mostrare preferenze (show-bookings)
+Tramite questa richiesta è possibile ottenere la lista delle prenotazioni associate a un dato evento, nel caso trattasi di un evento con modalità 1 ('nessuna restrizione') viene ritornata la lista delle N soluzioni più gettonate, con N impostabile dall’utente (N = 10 se non specificato).
+~~~
+Da effettuare tramite token JWT che deve contenere un payload JSON con la seguente struttura:
+{
+  "event_id": 1,
+  "limit": 3,
+  "sender_role": "user",
+  "sender_id": "giordano@email.com"
+}
+
+* Il limite può essere omesso o avere valore 'null', viene ignorato se trattasi di un evento con modalità diversa da 1
+~~~
+
+### Effettuare una prenotazione (book)
+Tramite questa richiesta è possibile esprimere una preferenza per un determinato evento (secondo le [condizioni](#modality) citate precedentemente).
+~~~
+Da effettuare richiesta HTTP con Content-Type:'application/json' nell'header e payload JSON con la seguente struttura:
+{
+  "event_id": 3,
+  "datetimes": [
+     "2022-06-15T09:30:00+01:00"
+  ],
+  "email":"pippo@email.com",
+  "name": "Pippo",
+  "surname": "Rossi"
+}
+~~~
+
+### Ricaricare token di un utente (refill)
+Tramite questa richiesta è possibile (per un utente admin) ricaricare il credito di un utente specificandone l'email assieme alla quantità di token da sovrascrivere a quella corrente.
+~~~
+Da effettuare tramite token JWT che deve contenere un payload JSON con la seguente struttura:
+{
+  "owner": "giordano@email.com",
+  "token": 15,
+  "sender_id": "antonio@email.com",
+  "sender_role": "admin"
+}
+~~~
+
+## Progettazione UML
+Di seguito vengono riportati i diagrammi UML:
+* Use Case Diagram
+* Interaction Overview Diagram
+* Sequence Diagram 
 
 
+### Use Case Diagram
+<img src = "resources/UseCase.jpg">
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## UML
-### Class Diagram
-
-* **it.SpringBootAPI.ADSProjectOOP**
-<img src = "ADSProjectOOP/UML/02)%20ADSProjectOOP.png">
-
-* **Application**
-<img src = "ADSProjectOOP/UML/10)%20Application.png" width = 400>
-
-* **it.SpringBootAPI.ADSProjectOOP.controller**
-<img src = "ADSProjectOOP/UML/09)%20Controller.png" width = 400>
-
-* **it.SpringBootAPI.ADSProjectOOP.fetch**
-<img src = "ADSProjectOOP/UML/03)%20FetchClass.png" width = 200>
-
-* **it.SpringBootAPI.ADSProjectOOP.model**
-<img src = "ADSProjectOOP/UML/04)%20User%26FrontUser.png" width = 500>
-
-* **it.SpringBootAPI.ADSProjectOOP.database**
-<img src = "ADSProjectOOP/UML/05)%20FrontDatabase%26Database.png" width = 500>
-
-* **it.SpringBootAPI.ADSProjectOOP.util.stats**
-<img src = "ADSProjectOOP/UML/07)%20DescriptionStats.png" width = 400>
-
-* **it.SpringBootAPI.ADSProjectOOP.util.filters**
-<img src = "ADSProjectOOP/UML/06)%20Filter.png">
-
-* **it.SpringBootAPI.ADSProjectOOP.exceptions**
-<img src = "ADSProjectOOP/UML/08)%20Exception.png" width = 500>
+### Interaction Overview Diagram
+<img src = "resources/InteractionOverview.jpg">
 
 ### Sequence Diagram
-* **Chiamata GET /metadata :**
-Il Controller esegue una chiamata `getMetadata()` a Database che, passando per User, richiama la FetchClass ottenendo i friends Twitter e restituisce al Controller un Vector di User contenente i metadati degli stessi.
-<img src = "ADSProjectOOP/UML/Sequence%20Diagram/metadata.png">
+* **Chiamata POST /create-event :**
+<img src = "resources/createEvent-SequenceDiagram.jpg">
 
-* **Chiamata GET /friends :**
-Il Controller esegue una chiamata `getFriends()` a FrontDatabase che, passando per FrontUser, richiama la FetchClass ottenendo i friends Twitter e restituisce al Controller un Vector di User contenente i dati di interesse per il client (nome e descrizione) degli stessi.
-<img src = "ADSProjectOOP/UML/Sequence%20Diagram/friends.png">
+* **Chiamata GET /show-events :**
+<img src = "resources/showEvents-SequenceDiagram.jpg">
 
-* **Chiamata GET /stats :**
-Il Controller esegue una chiamata `getStats()` a DescriptionStats da cui il costruttore chiama le funzioni interne alla classe per inizializzare gli attributi relativi alle varie statistiche. Ogni funzione interna chiama a sua volta Database per prelevare i dati da analizzare.
-<img src = "ADSProjectOOP/UML/Sequence%20Diagram/stats.jpg">
+* **Chiamata POST /delete-event :**
+<img src = "resources/deleteEvent-SequenceDiagram.jpg">
 
-* **Chiamata GET /filter/description :**
-Il Controller esegue una chiamata `getFilteredDescription()` alla superclasse Filter invocandone il metodo `filterVector()`. Tale metodo, dopo aver prelevato tutti i friends da Database (Vector di User), tramite un for, itera la chiamata al metodo `filter()` (overridato) per ogni elemento del vettore. Se il friend risulta positivo al filtro allora il suo elemento corrispondente di FrontDatabase viene caricato in un nuovo Vector di FrontUser. Questo vettore viene ritornato al Controller.</br ></br >_Le altre chiamate corrispondenti ai vari filtri (tranne `/filter/between`) sono assimilabili con quanto appena descritto e non sono riportate in questo documento per brevità dello stesso._
-<img src = "ADSProjectOOP/UML/Sequence%20Diagram/filter_description.png">
+* **Chiamata POST /close-event :**
+<img src = "resources/closeEvent-SequenceDiagram.jpg">
 
-* **Chiamata GET /filter/between :**
-Il Controller esegue una chiamata `getFilteredGap()` alla superclasse Filter invocandone il metodo `filterVector()`. Tale metodo, dopo aver prelevato tutti i friends da Database (Vector di User), tramite un for, itera la chiamata al metodo `filter()` (overridato) per ogni elemento del vettore. In questo caso `filter()` invoca l'omonimo metodo di FilterCharacterLess e FilterCharacterMore per valutare se il numero di carattei della descrizione è interno al range dato. Se il friend risulta positivo al filtro allora il suo elemento corrispondente di FrontDatabase viene caricato in un nuovo Vector di FrontUser. Questo vettore viene ritornato al Controller.
-<img src = "ADSProjectOOP/UML/Sequence%20Diagram/between.png">
+* **Chiamata GET /show-bookings :**
+<img src = "resources/showBookings-SequenceDiagram.jpg">
+
+* **Chiamata POST /book :**
+<img src = "resources/book-SequenceDiagram.jpg">
+
+* **Chiamata POST /refill :**
+<img src = "resources/refill-SequenceDiagram.jpg">
+
+## Avvio del servizio
+Prerequisiti:
+* Ambiente Docker installato sulla propria macchina
+
+Procedura di avvio:
+* Posizionarsi nella cartella clonata dal seguente repository
+* Eseguire il seguente comando: (sostituire 'mysupersecretkey' con la chiave con la quale verranno generati i token JWT)
+~~~
+$ echo 'KEY=mysupersecretkey' >> .env
+~~~
+* Avviare il servizio Docker tramite il comando:
+~~~
+$ docker-compose up
+~~~
+* Eseguire le richieste sulla porta 8080 tramite cURL o Postman
+
+## Test del progetto
+
+É possibile eseguire una serie di test predefiniti importando all'interno di Postman la collection [(postman_collection.json)](postman_collection.json) situata all'interno della root directory di tale repository.
+
 
 ## Note
 
 ### Software utilizzati
-* [Eclipse](https://www.eclipse.org/) - ambiente di sviluppo integrato
-* [Spring Boot](https://spring.io/projects/spring-boot) - framework per sviluppo applicazioni Java
-* [Maven](https://maven.apache.org/) - strumento di gestione di progetti
+* [Visual Studio Code](https://code.visualstudio.com/) - IDE
+* [Docker](https://www.docker.com/) - Gestore di container
+* [Postman](https://www.postman.com/) - API Testing Platform
 
 ### Autori
 * Giordano Angelini: [Github](https://github.com/giordanoangelini)
